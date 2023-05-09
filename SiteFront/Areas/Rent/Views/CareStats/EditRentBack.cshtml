@@ -1,0 +1,388 @@
+﻿
+
+@model CustomerRentBackDto
+
+@{
+    ViewData["Title"] = "استلام السيارة";
+}
+<form asp-action="EditRentBack" method="post">
+    <div class="container-fluid">
+        <div class="title">
+            <h4>
+                <span> بيانات التاجير </span>
+            </h4>
+        </div>
+        <div>
+            <div class="box mb-3 p-3">
+                <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CarId" />
+                    <input type="hidden" asp-for="CustomerId" />
+                    <input type="hidden" asp-for="MarketerId" />
+                    <input type="hidden" asp-for="EmployeeId" />
+                    <input type="hidden" asp-for="StockId" />
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control " readonly asp-for="CarName" id="PricePerDay" placeholder="" />
+                            <label asp-for="CarName"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control " readonly asp-for="PricePerDay" id="PricePerDay" placeholder="" />
+                            <label asp-for="PricePerDay"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control " readonly asp-for="CustomerName" id="PricePerDay" placeholder="" />
+                            <label asp-for="CustomerName"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control " readonly asp-for="MarketerName" id="PricePerDay" placeholder="" />
+                            <label asp-for="MarketerName"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" readonly asp-for="GuarantorName" placeholder="" />
+                            <label asp-for="GuarantorName" class="form-label"></label>
+                        </div>
+                    </div>
+
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" readonly asp-for="EmployeeName" placeholder="" />
+                            <label asp-for="EmployeeName" class="form-label"></label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="datetime-local" readonly class="form-control" asp-for="StartDate" value="@(Model.StartDate.ToString("yyyy-MM-ddThh:mm"))" />
+                            <label asp-for="StartDate" class="form-label"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input class="form-control" readonly asp-for="NumberOfDays" placeholder="" />
+                            <label asp-for="NumberOfDays" class="form-label"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input class="form-control " readonly asp-for="EndDate" id="EndDate" placeholder="" />
+                            <label asp-for="EndDate" class="form-label"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control " readonly asp-for="Total" id="Total" placeholder="" />
+                            <label asp-for="Total" class="form-label"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" readonly asp-for="StockName" placeholder="" />
+                            <label asp-for="StockName" class="form-label"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" readonly asp-for="payment" placeholder="" />
+                            <label asp-for="payment" class="form-label"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" readonly asp-for="RentDiscount" placeholder="" />
+                            <label asp-for="RentDiscount" class="form-label"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control " readonly asp-for="RestValue" id="RestValue" placeholder="" />
+                            <label asp-for="RestValue" class="form-label"></label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" readonly asp-for="CounterStart" id="CounterStart" placeholder="" />
+                            <label asp-for="CounterStart" class="form-label"></label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" readonly asp-for="AllowedDistance" id="allowedDistance" placeholder="" />
+                            <label asp-for="AllowedDistance" class="form-label"></label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" asp-for="Notes" id="CounterStart" placeholder="" />
+                            <label asp-for="Notes" class="form-label"></label>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="title">
+            <h4>
+                <span> استلام السيارة المؤجرة </span>
+            </h4>
+        </div>
+        <div>
+
+
+            <div class="box mb-3 p-3">
+                <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="PriceLatePerKm" onkeyup="GetFinalTotal()" onchange="GetFinalTotal()" id="priceLatePerKm" placeholder="" />
+                            <label asp-for="PriceLatePerKm" class="form-label"></label>
+                            <span asp-validation-for="PriceLatePerKm" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="CounterEnd" onkeyup="GetIncreaseDistance()" onchange="GetIncreaseDistance()" id="counterEnd" placeholder="" />
+                            <label asp-for="CounterEnd" class="form-label"></label>
+                            <span asp-validation-for="CounterEnd" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" onkeyup="GetFinalTotal()" onchange="GetFinalTotal()" asp-for="IncreaseDistanc" id="increaseDistanc" placeholder="" />
+                            <label asp-for="IncreaseDistanc" class="form-label"></label>
+                            <span asp-validation-for="IncreaseDistanc" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" asp-for="PriceTimeLatePerHoure" onkeyup="GetFinalTotal()" onchange="GetFinalTotal()" id="priceLatePerHoure" placeholder="" />
+                            <label asp-for="PriceTimeLatePerHoure" class="form-label"></label>
+                            <span asp-validation-for="PriceTimeLatePerHoure" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="datetime-local" class="form-control" asp-for="ActualBackDate" id="actualBackDate" value="" placeholder="" />
+                            <label asp-for="ActualBackDate" class="form-label"></label>
+                            <span asp-validation-for="ActualBackDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" asp-for="LateHours" onkeyup="GetFinalTotal()" onchange="GetFinalTotal()" id="lateHours" placeholder="" />
+                            <label asp-for="LateHours" class="form-label"></label>
+                            <span asp-validation-for="LateHours" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" asp-for="PriceWash" onkeyup="GetFinalTotal()" onchange="GetFinalTotal()" id="priceWash" placeholder="" />
+                            <label asp-for="PriceWash" class="form-label"></label>
+                            <span asp-validation-for="PriceWash" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" asp-for="PetrolPrice" onkeyup="GetFinalTotal()" onchange="GetFinalTotal()" id="petrolPrice" placeholder="" />
+                            <label asp-for="PetrolPrice" class="form-label"></label>
+                            <span asp-validation-for="PetrolPrice" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" readonly asp-for="FinalTotalAfterLate" id="finalTotalAfterLate" placeholder="" />
+                            <label asp-for="FinalTotalAfterLate" class="form-label"></label>
+                            <span asp-validation-for="FinalTotalAfterLate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="RentBackDiscount" onkeyup="GetFinalRest()" onchange="GetFinalRest()" id="RentBackDiscount" placeholder="" />
+                            <label asp-for="RentBackDiscount" class="form-label"></label>
+                            <span asp-validation-for="RentBackDiscount" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="PaymentFinal" onkeyup="GetFinalRest()" onchange="GetFinalRest()" id="PaymentFinal" placeholder="" />
+                            <label asp-for="PaymentFinal" class="form-label"></label>
+                            <span asp-validation-for="PaymentFinal" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="text" class="form-control" readonly asp-for="RentBackRest" id="RentBackRest" placeholder="" />
+                            <label asp-for="RentBackRest" class="form-label"></label>
+                            <span asp-validation-for="RentBackRest" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <select class="form-select select2" asp-for="StockBackId" asp-items="@(new SelectList(Model.Stocks,"Id","Name", Model.StockBackId))">
+                            <option value="">اختر الخزنة</option>
+                        </select>
+                        <label asp-for="StockBackId" class="form-label"></label>
+                        <span asp-validation-for="StockBackId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="date" class="form-control" asp-for="DueDate" value="" id="DueDate" placeholder="" />
+                            <label asp-for="DueDate" class="form-label"></label>
+                            <span asp-validation-for="DueDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <select class="form-select select2" asp-for="CustomerEvaluationId" asp-items="@(new SelectList(Model.CustomerEvaluations,"Id","Name"))">
+                            <option value=""> تقييم العميل</option>
+                        </select>
+                        <label asp-for="CustomerEvaluationId" class="form-label"></label>
+                        <span asp-validation-for="CustomerEvaluationId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <select class="form-select select2" asp-for="EmployeeReceiveId" asp-items="@(new SelectList(Model.Employees,"Id","Name", Model.EmployeeReceiveId))">
+                            <option value="">اختر الموظف</option>
+                        </select>
+                        <label asp-for="EmployeeReceiveId" class="form-label"></label>
+                        <span asp-validation-for="EmployeeReceiveId" class="text-danger"></span>
+                    </div>
+
+                    <div class="col">
+                        <input type="submit" value="استلام السيارة" class="btn w-100 btn-primary">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+            </div>
+
+</form>
+@section Scripts{
+    <script type="text/javascript">
+
+            function GetIncreaseDistance() {
+
+            var counterEnd = $("#counterEnd").val();
+
+            var CounterStart = $("#CounterStart").val();
+
+            var Distanc = parseFloat(counterEnd) - parseFloat(CounterStart);
+
+            if (Distanc > parseFloat($("#allowedDistance").val()))
+            {
+                var IncreaseDistanc = Distanc - parseFloat($("#allowedDistance").val());
+
+                //alert(IncreaseDistanc);
+                $("#increaseDistanc").val(IncreaseDistanc);
+
+            }
+            else {
+                var IncreaseDistanc = 0;
+                $("#increaseDistanc").val(IncreaseDistanc);
+            }
+            var cost = IncreaseDistanc * parseFloat($("#priceLatePerKm").val())
+
+            //alert(cost);
+
+                $("#finalTotalAfterLate").val(parseFloat($("#increaseDistanc").val()) * parseFloat($("#priceLatePerKm").val()) + parseFloat($("#RestValue").val()) + parseFloat($("#priceWash").val()) + parseFloat($("#petrolPrice").val()) + parseFloat($("#lateHours").val()) * parseFloat($("#priceLatePerHoure").val()));
+                $("#RentBackRest").val(parseFloat($("#finalTotalAfterLate").val()) - parseFloat($("#RentBackDiscount").val()) - parseFloat($("#PaymentFinal").val()));
+
+        };
+
+        $(document).ready(
+          
+            $("#actualBackDate").val($("#EndDate").val())
+        );
+
+        $("#actualBackDate").change(function () {
+
+            var actualBackDate = new Date( $(this).val());
+
+            var endDate = new Date($("#EndDate").val());
+
+            var diff = diff_hours(actualBackDate, endDate)
+
+            $("#lateHours").val(diff);
+
+            var cost = diff * parseFloat($("#priceLatePerHoure").val())
+
+            $("#finalTotalAfterLate").val(parseFloat($("#increaseDistanc").val()) * parseFloat($("#priceLatePerKm").val()) + parseFloat($("#RestValue").val()) + parseFloat($("#priceWash").val()) + parseFloat($("#petrolPrice").val()) + parseFloat($("#lateHours").val()) * parseFloat($("#priceLatePerHoure").val()));
+            $("#RentBackRest").val(parseFloat($("#finalTotalAfterLate").val()) - parseFloat($("#RentBackDiscount").val()) - parseFloat($("#PaymentFinal").val()));
+        }
+            );
+
+        function diff_hours(dt2, dt1) {
+
+            var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+            diff /= (60 * 60);
+
+            if (Math.round(diff) < 0) {
+                diff = 0;
+            }
+            return Math.round(diff);
+        }
+
+        function GetFinalTotal() {
+            $("#finalTotalAfterLate").val(parseFloat($("#increaseDistanc").val()) * parseFloat($("#priceLatePerKm").val()) + parseFloat($("#RestValue").val()) + parseFloat($("#priceWash").val()) + parseFloat($("#petrolPrice").val()) + parseFloat($("#lateHours").val()) * parseFloat($("#priceLatePerHoure").val()));
+            $("#RentBackRest").val(parseFloat($("#finalTotalAfterLate").val()) - parseFloat($("#RentBackDiscount").val()) - parseFloat($("#PaymentFinal").val()));
+        }
+
+
+        //Rest
+        function GetFinalRest() {
+            $("#RentBackRest").val(parseFloat($("#finalTotalAfterLate").val()) - parseFloat($("#RentBackDiscount").val()) - parseFloat($("#PaymentFinal").val()));
+        };
+
+
+        //$("#Payment").change(function () {
+        //    $this = $(this);
+
+        //    if (parseFloat($this.val()) > parseFloat($("#Total").val())) {
+        //        toastr.error("لا يمكن للمدفوع ان يكون اكبر من الاجمالي");
+        //        $this.val("0");
+        //    } else {
+        //        $("#RestValue").val(parseFloat($("#Total").val()) - parseFloat($this.val()));
+        //    }
+
+
+        //});
+
+    </script>
+}

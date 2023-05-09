@@ -1,0 +1,103 @@
+﻿@model CustomerReservationRegisterDto
+
+
+<form asp-action="@(Model.Id != null ? "Edit": "Create")" method="post" enctype="multipart/form-data">
+
+    <div class="box mb-3 p-3">
+        <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Customer" placeholder="" />
+                    <label asp-for="Customer" class="form-label">العميل</label>
+                    <span asp-validation-for="Customer" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2"  asp-for="CarId" asp-items="@(new SelectList(Model.Cars,"Id","name"))">
+                    <option value="">اختر السياره</option>
+                </select>
+                <label asp-for="CarId" class="form-label">السيارة</label>
+                <span asp-validation-for="CarId" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" asp-for="MarketerId" asp-items="@(new SelectList(Model.Marketers,"Id","name"))">
+                    <option value="">اختر المسوق</option>
+                </select>
+                <label asp-for="MarketerId" class="form-label">المسوق</label>
+                <span asp-validation-for="MarketerId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="datetime-local" class="form-control" asp-for="StartDate" id="StartDate" placeholder="" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+                    <label asp-for="StartDate" class="form-label">تاريخ البداية</label>
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input class="form-control" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" asp-for="NumberOfDays" onkeyup="GetEndDate()" id="NumberOfDays" placeholder="" />
+                    <label asp-for="NumberOfDays" class="form-label">عدد الايام</label>
+                    <span asp-validation-for="NumberOfDays" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input class="form-control "  asp-for="EndDate" id="EndDate" placeholder="" />
+                    <label asp-for="EndDate" class="form-label">تاريخ النهاية</label>
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Value" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" placeholder="" />
+                    <label asp-for="Value" class="form-label">القيمة</label>
+                    <span asp-validation-for="Value" class="text-danger"></span>
+
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="file" class="form-control" asp-for="ReservationPhotoFile" multiple />
+                    <label asp-for="ReservationPhotoFile">صور  الحجز</label>
+                    <span asp-validation-for="ReservationPhotoFile" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="AllowedDistance"  placeholder="" />
+                    <label asp-for="AllowedDistance" class="form-label">المسافة المتفق عليها</label>
+                    <span asp-validation-for="AllowedDistance" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Notes" placeholder="" />
+                    <label asp-for="Notes" class="form-label">ملاحظات</label>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+
+                </div>
+            </div>
+
+
+
+            <div class="col">
+                <input type="submit" value="@(Model.Id != null ? "تعديل" : "حفظ")" class="btn w-100 btn-primary">
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+

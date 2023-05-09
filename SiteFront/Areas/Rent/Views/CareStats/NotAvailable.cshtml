@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CarUnavailableGetDto>
+
+@{
+    ViewData["Title"] = "السيارات  المؤجرة";
+}
+
+
+
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> السيارات  المؤجرة </span>
+        </h4>
+    </div>
+    <div class="box mb-3 p-3">
+        <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="~/Images/Cars/Photos/@(item.CarId+"/"+item.CarPhotos.Select(p=>p.PhotoUrl).LastOrDefault())" style="width:400px;" class="img-thumbnail" alt="NoPhoto" />
+                        <div class="card-body">
+                            <h5 class="card-title"> موديل السيارة: @item.CarModel </h5>
+                            <p class="card-text">
+
+                            </p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">  اسم السيارة: @item.Name </li>
+                            <li class="list-group-item">  رقم السيارة: @item.Number</li>
+                            @*<li class="list-group-item">   الشركة: @item.CompanyName</li>*@  
+                            <li class="list-group-item">  تاريخ العودة : @item.EndDate</li>
+                        </ul>
+
+                        <div class="card-body">
+                            <a asp-area="Rent" asp-controller="CustomerRent" asp-action="Edit" asp-route-id="@item.CustomerRentId" class="btn btn-primary w-100">تعديل فاتورة الايجار</a>
+                        </div>
+                        <div class="card-body">
+                            <a asp-action="EditRentBack" asp-route-id="@item.CustomerRentId" class="btn btn-primary w-100">استلام السيارة</a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+

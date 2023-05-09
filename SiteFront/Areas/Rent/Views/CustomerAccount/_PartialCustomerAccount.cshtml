@@ -1,0 +1,39 @@
+﻿@model List<CustomerAccountGetDto>
+@{
+    int index = 1;
+    double account = 0;
+}
+
+<div class="container-fluid">
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th> مسلسل</th>
+                        <th>دائن</th>
+                        <th>مدين</th>
+                        <th>الحساب</th>
+                        <th>التعليق</th>
+                        <th>الذهاب الي الدفعة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@(index++) </td>
+                        <td>@item.Dept</td>
+                        <td>@item.Borrower</td>
+                        <td>@(account= account + (item.Dept-item.Borrower))</td>
+                        <td>@item.Explain</td>
+                        <td>
+                            <a asp-action="GetPayment" asp-controller="CustomerAccount" asp-area="Rent" asp-route-id="@item.MovementId" asp-route-type="@item.AccountType" class="btn w-30  btn-primary">الذهاب الي الدفعة</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,269 @@
+﻿@model CarAccidentModelDto
+
+@{
+    ViewData["title"] = "حوادث السيارات";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> حوادث السيارات </span>
+        </h4>
+    </div>
+    <div id="_PartialCarAccident">
+        <partial name="_PartialCarAccident.cshtml" model="Model.CarAccidentRegisterDto" />
+    </div>
+
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>م</th>
+                        <th>اسم السيارة</th>
+                        <th> العميل  </th>
+                        <th>  التاريخ</th>
+                        <th> السعر</th>
+                        <th> المدفوع </th>
+                        <th> الباقي  </th>
+                        <th> الخزنة </th>
+                        <th> ملاحظات </th>
+                        <th>صور/فيديوهات</th>
+                        <th>تعديل /حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CarAccidentGetDtos)
+                    {
+                    <tr>
+                        <td>@(index++)</td>
+                        <td>@item.CarName</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.Date.ToShortDateString()</td>
+                        <td>@item.Price</td>
+                        <td>@item.Payment</td>
+                        <td>@item.RestValue</td>
+                        <td>@item.StockName</td>
+                        <td>@item.Notes</td>
+                        <td>
+                            @if (item.CarAccidentPhotos != null && item.CarAccidentPhotos.Count != 0)
+                            {
+                                <a href="" class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#car-image-modal" onclick="GetPhotos(this)" id="@item.Id">
+                                    <i class="bi bi-images"></i>
+                                </a>
+                            }
+                            @if (item.CarAccidentVideos != null && item.CarAccidentVideos.Count != 0)
+                            {
+                                <a href="" class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#car-video-modal" onclick="GetVideos(this)" id="@item.Id">
+                                    <i class="bi bi-play-btn"></i>
+                                </a>
+                            }
+                        </td>
+                        <td>
+                            <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@item.Id">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            <a class="btn btn-sm btn-danger btn-delete" data-id="@item.Id">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal For Photos-->
+
+<div class="modal fade" id="car-image-modal" tabindex="-1" aria-labelledby="car-image-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="car-image-modalLabel">صور الحادثة </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="div_image">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal For Videos-->
+
+<div class="modal fade" id="car-video-modal" tabindex="-1" aria-labelledby="car-image-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="car-image-modalLabel">فيديوهات  السيارة </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="div_video">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+
+        function loadData(e) {
+
+            $("#_PartialCarAccident").load('/Owners/CarAccident/GetData/' + e.id);
+
+        }
+        //Delete
+        $(".btn-delete").on("click", function () {
+            var btn = $(this);
+            var result = confirm("هل أنت متأكد من الحذف ؟؟");
+            if (result) {
+                $.ajax({
+                    url: "/Owners/CarAccident/Delete/" + btn.data('id'),
+                    method: "GET",
+                    async: true,
+                    success: function () {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents('tr').fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error("حدث خطأ أثناء الحذف !!");
+                    }
+                });
+            }
+        });
+
+        //Rest Value
+        function GetRestVal() {
+            var RestValue = $("#Price").val() - $("#Payment").val();
+            $("#Rest").val(RestValue);
+        }
+
+
+
+        //Get Photos
+        function GetPhotos(p) {
+            $.ajax({
+                url: "/Owners/CarAccident/GetCarAccidentPhotos/" + p.id,
+                dataType: 'json',
+                data: '',
+                contentType: "application/json",
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        $(" <div class='col-md-4 col-sm-6' id='parent'>" +
+                            "<div class='card' > " +
+                            "<img class='card-img-top' src=" + value.image + "  alt='Card image cap' >" +
+                            "<div class='card-body text-center'>" +
+                            "<button id=" + value.id + " class='card-link btn btn-danger' onclick='DeletePhoto(this)' ><i class='bi bi-trash3-fill'></i></button>" +
+                            "<a href=" + value.image + " class='card-link btn btn-info' download=" + value.name + '.jpg' + " ><i class='bi bi-download'></i></a>" +
+                            "<a href=" + value.image + " class='card-link btn btn-secondary'  target='_blank' > <i class='bi bi-eye-fill'></i></a>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>").appendTo("#div_image");
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        }
+
+        //Empty Modal
+        $("#car-image-modal").on("hidden.bs.modal", function () {
+            $("#div_image").empty();
+        });
+
+        //Delete Photo
+        function DeletePhoto(d) {
+            var btn = $(d);
+            console.log(btn);
+            var result = confirm("هل أنت متأكد من الحذف !!!");
+            if (result) {
+                $.ajax({
+                    url: "/Owners/CarAccident/DeletePhoto/" + d.id,
+                    success: function (response) {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents("#parent").fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error('خطاء أثناء الحذف !!!');
+                    }
+                });
+            }
+        }
+
+        //Get Videos
+        function GetVideos(v) {
+            $.ajax({
+                url: "/Owners/CarAccident/GetCarAccidentVideos/" + v.id,
+                dataType: 'json',
+                data: '',
+                contentType: "application/json",
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        $(" <div class='col-md-4 col-sm-6' id='parent'>" +
+                            "<div class='card' > " +
+                            "<video width='238' controls>" +
+                            " <source src=" + value.video + " type='video/mp4'>" +
+                            "</video>" +
+                            "<div class='card-body text-center'>" +
+                            "<button id=" + value.id + " class='card-link btn btn-danger' onclick='DeleteVideo(this)' ><i class='bi bi-trash3-fill'></i></button>" +
+                            "<a href=" + value.video + " class='card-link btn btn-info' download=" + value.name + '.mp4' + " ><i class='bi bi-download'></i></a>" +
+                            "<a href=" + value.video + " class='card-link btn btn-secondary'  target='_blank' > <i class='bi bi-eye-fill'></i></a>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>").appendTo("#div_video");
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        }
+
+        //Empty Modal
+        $("#car-video-modal").on("hidden.bs.modal", function () {
+            $("#div_video").empty();
+        });
+
+        //Delete Video
+        function DeleteVideo(d) {
+            var btn = $(d);
+            console.log(btn);
+            var result = confirm("هل أنت متأكد من الحذف !!!");
+            if (result) {
+                $.ajax({
+                    url: "/Owners/CarAccident/DeleteVideo/" + d.id,
+                    success: function (response) {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents("#parent").fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error('خطاء أثناء الحذف !!!');
+                    }
+                });
+            }
+        }
+
+
+    </script>
+}
+
+
+

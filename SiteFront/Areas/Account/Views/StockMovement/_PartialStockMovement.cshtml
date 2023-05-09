@@ -1,0 +1,40 @@
+﻿@model List<StockMovementGetDto>
+@{
+    int index = 1;
+    double account = 0;
+}
+
+<div class="container-fluid">
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th> مسلسل</th>
+                        <th>الداخل</th>
+                        <th>الخارج</th>
+                        <th>الحساب</th>
+                        <th>تعليق</th>
+                        <th>الذهاب الي الحركة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(index++) </td>
+                            <td>@item.InValue</td>
+                            <td>@item.OutValue</td>
+                            <td>@(account= account + (item.InValue - item.OutValue))</td>
+                            <td>@item.Comment</td>
+                            <td>
+                                <a asp-action="GetMovement" asp-controller="StockMovement" asp-area="Account" asp-route-id="@item.MovementId" asp-route-type="@item.MovementType"  class="btn w-30  btn-primary">الذهاب الي الحركة</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

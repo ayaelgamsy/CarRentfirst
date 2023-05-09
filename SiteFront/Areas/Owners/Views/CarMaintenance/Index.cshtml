@@ -1,0 +1,82 @@
+﻿@model CarMaintenanceModelDto
+@{
+    ViewData["Title"] = "صيانة السيارات";
+}
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> صيانة السيارات </span>
+        </h4>
+    </div>
+    <div id="PartialCarMaintenance">
+        <partial name="_PartialCarMaintenance.cshtml" model="Model.CarMaintenanceRegisterDto" />
+    </div>
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table" id="table-data">
+                <thead>
+                    <tr>
+                        <th>اسم السيارة </th>
+                        <th>  التاريخ</th>
+                        <th> القيمة</th>
+                        <th> الخزنة</th>
+                        <th>ملاحظات</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CarMaintenanceGetDtos)
+                    {
+                        <tr>
+                            <td>@item.CarName</td>
+                            <td>@item.date.ToShortDateString()</td>
+                            <td>@item.value</td>
+                            <td>@item.StockName</td>
+                            <td>@item.Notes</td>
+                           
+                            <td>
+                                <button class="btn btn-sm btn-info " onclick="loadData(this)" id="@item.Id">
+                                    <i class="bi bi-pen"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-delete"  data-id="@item.Id" >
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{ 
+<script type="text/javascript">
+    function loadData(e) {    
+        $("#PartialCarMaintenance").load("/Owners/CarMaintenance/GetData/" + e.id);
+    }
+
+    //Delete
+    $(".btn-delete").on("click", function () {
+        var btn = $(this);
+        var result = confirm("هل أنت متأكد من الحذف ؟؟");
+        if (result) {
+            $.ajax({
+                url: "/Owners/CarMaintenance/Delete/" + btn.data('id'),
+                method: "GET",
+                async: true,
+                success: function () {
+                    toastr.success("تم الحذف بنجاح");
+                    btn.parents('tr').fadeOut();
+                },
+                error: function (response) {
+                    toastr.error("حدث خطأ أثناء الحذف !!");
+                }
+            });
+        }
+    });
+</script>
+}

@@ -1,0 +1,223 @@
+﻿@model CustomerRentRegisterDto
+
+
+<form asp-action="@(Model.Id != null ? "Edit": "Create")" method="post" enctype="multipart/form-data">
+
+    <div class="box mb-3 p-3">
+        <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" id="Cars" asp-for="CarId" asp-items="@(new SelectList(Model.Cars,"Id","Name", Model.CarId))">
+                    <option value="">اختر السياره</option>
+                </select>
+                <label asp-for="CarId" class="form-label"></label>
+                <span asp-validation-for="CarId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="PricePerDay" id="PricePerDay" placeholder="" />
+                    <label asp-for="PricePerDay"></label>
+                    <span asp-validation-for="PricePerDay" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" id="CustomerPhone" asp-for="CustomerNumber" maxlength="11" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onchange="GetEmployee()" onkeyup="GetEmployee()"/>
+                    <label asp-for="CustomerNumber" class="form-label"></label>
+                    <span asp-validation-for="CustomerNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" id="Customers" asp-for="CustomerId" asp-items="@(new SelectList(Model.Customers,"Id","Name", Model.CustomerId))">
+                    <option value="">اختر العميل</option>
+                </select>
+                <label asp-for="CustomerId" class="form-label"></label>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" asp-for="MarketerId" asp-items="@(new SelectList(Model.Marketers,"Id","MarketerNameAndPhone", Model.MarketerId))">
+                    <option value="">اختر المسوق</option>
+                </select>
+                <label asp-for="MarketerId" class="form-label"></label>
+                <span asp-validation-for="MarketerId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="GuarantorName" placeholder="" />
+                    <label asp-for="GuarantorName" class="form-label"></label>
+                    <span asp-validation-for="GuarantorName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="file" class="form-control" asp-for="GuarantorPhotoFile" multiple />
+                    <label asp-for="GuarantorPhotoFile">صور بطاقة الضامن</label>
+                    <span asp-validation-for="GuarantorPhotoFile" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" id="Employeess" asp-for="EmployeeId" asp-items="@(new SelectList(Model.Employees,"Id","Name", Model.EmployeeId))">
+                    <option value="">اختر الموظف</option>
+                </select>
+                <label asp-for="EmployeeId" class="form-label"></label>
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="datetime-local" class="form-control" asp-for="StartDate" id="StartDate" placeholder="" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+                    <label asp-for="StartDate" class="form-label"></label>
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            @*<div class="col">
+
+            @foreach (var type in System.Enum.GetValues(typeof(DayType)))
+            {
+               <label> <input type="radio" name="type" onchange="GetEndDate()" asp-for="TypeOfDay" class="form-check-input"  value="@((int)type)" /> @type</label>
+            }
+
+        </div>*@
+
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="form-floating custome mb-3">
+                    <label for="" asp-for="TypeOfDay">نوع اليوم</label>
+                    <div class="form-control">
+                        @foreach (var type in System.Enum.GetValues(typeof(DayType)))
+                        {
+                            if (Model.Id == null)
+                            {
+                                <label><input class="form-check-input" name="TypeOfDay" onchange="GetEndDate()" type="radio" asp-for="TypeOfDay" value="@Convert.ToInt32(type)" />@type</label>
+                            }
+                            else
+                            {
+                                if (Convert.ToInt32(Model.TypeOfDay) == Convert.ToInt32(type))
+                                {
+                                    <label>
+                                        <input class="form-check-input" name="TypeOfDay" onchange="GetEndDate()" type="radio" asp-for="TypeOfDay" value="@Convert.ToInt32(type)" checked />
+                                        @type
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label>
+                                        <input class="form-check-input" type="radio" name="TypeOfDay" onchange="GetEndDate()" asp-for="TypeOfDay" value="@Convert.ToInt32(type)" />
+                                        @type
+                                    </label>
+                                }
+                            }
+                        }
+                    </div>
+                    <span asp-validation-for="TypeOfDay" class="text-danger validation"></span>
+                </div>
+            </div>
+
+
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input class="form-control" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" asp-for="NumberOfDays" onchange="GetRest()" onkeyup="GetEndDate(),GetRest()" id="NumberOfDays" placeholder="" />
+                    <label asp-for="NumberOfDays" class="form-label"></label>
+                    <span asp-validation-for="NumberOfDays" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="datetime" class="form-control " readonly asp-for="EndDate" id="EndDate" placeholder="" />
+                    <label asp-for="EndDate" class="form-label"></label>
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input class="form-control" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" asp-for="SerialNumber" placeholder="" />
+                    <label asp-for="SerialNumber" class="form-label">الرقم التسلسلي</label>
+                    <span asp-validation-for="SerialNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control " readonly asp-for="Total" id="Total" placeholder="" />
+                    <label asp-for="Total" class="form-label"></label>
+                    <span asp-validation-for="Total" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" asp-for="StockId" asp-items="@(new SelectList(Model.Stocks,"Id","Name", Model.StockId))">
+                    <option value="">اختر الخزنة</option>
+                </select>
+                <label asp-for="StockId" class="form-label"></label>
+                <span asp-validation-for="StockId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" onchange="GetRest()" onkeyup="GetRest()" asp-for="RentDiscount" id="rentDiscount" placeholder="" />
+                    <label asp-for="RentDiscount" class="form-label"></label>
+                    <span asp-validation-for="RentDiscount" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" onchange="GetRest()" onkeyup="GetRest()" asp-for="payment" id="Payment" placeholder="" />
+                    <label asp-for="payment" class="form-label"></label>
+                    <span asp-validation-for="payment" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control " readonly asp-for="RestValue" id="RestValue" placeholder="" />
+                    <label asp-for="RestValue" class="form-label"></label>
+                    <span asp-validation-for="RestValue" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="CounterStart" id="CounterStart" placeholder="" />
+                    <label asp-for="CounterStart" class="form-label"></label>
+                    <span asp-validation-for="CounterStart" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="AllowedDistance" id="CounterStart" placeholder="" />
+                    <label asp-for="AllowedDistance" class="form-label"></label>
+                    <span asp-validation-for="AllowedDistance" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Notes" id="CounterStart" placeholder="" />
+                    <label asp-for="Notes" class="form-label"></label>
+
+                </div>
+            </div>
+
+            <div class="col">
+                <input type="submit" value="@(Model.Id != null ? "تعديل" : "حفظ")" class="btn w-100 btn-primary">
+            </div>
+
+        </div>
+    </div>
+</form>
+
+

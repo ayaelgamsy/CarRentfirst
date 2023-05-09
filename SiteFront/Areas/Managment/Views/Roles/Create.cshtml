@@ -1,0 +1,53 @@
+﻿
+@model RolesRegisterDto
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="title">
+    <h4>
+        <span> اضافة مجموعة </span>
+    </h4>
+</div>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="box mb-3 p-3">
+        <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+
+
+
+            <div class="col">
+                <div class="form-floating mb-2">
+
+                    <input asp-for="Name" class="form-control" />
+                    <label asp-for="Name">اسم المجموعه</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+
+
+
+                </div>
+            </div>
+
+
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="form-label-group">
+                    <input type="submit" value="إضافة" class="btn w-100 btn-primary" />
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="form-label-group">
+                    <a class="btn w-100 btn-block btn-info" asp-action="Index">الرجوع للرئيسية</a>
+                </div>
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+
+</form>

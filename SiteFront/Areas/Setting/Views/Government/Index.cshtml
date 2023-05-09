@@ -1,0 +1,81 @@
+﻿
+@model List<GovernmentGetDto>
+
+@{
+    ViewData["title"] = "المحافظات";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> المحافظات </span>
+        </h4>
+    </div>
+    <div id="_PartialGovernment">
+        <partial name="_PartialGovernment.cshtml" model="new GovernmentRegisterDto()" />
+    </div>
+
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>المسلسل</th>
+                        <th>اسم المحافظة</th>
+                        <th> كود المحافظة</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@item.Name</td>
+                            <td>@item.Code</td>
+                            <td>
+                                <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@item.Id" >
+                                    <i class="bi bi-pen"></i>
+                                </a>
+                                <a onclick="deleteData(this)" class="btn btn-sm btn-danger" id="@item.Id"  name="@item.Name">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+
+        function loadData(e) {
+
+            $("#_PartialGovernment").load('/Setting/Government/GetData/' + e.id);
+
+        }
+
+        function deleteData(d) {
+            var result = confirm('هل تريد حذف المحافظة ' + d.name + ' ؟');
+            if (result) {
+
+                window.location.href = '/Setting/Government/Delete/' + d.id;
+
+            }
+        };
+    </script>
+}
+
+
+
+

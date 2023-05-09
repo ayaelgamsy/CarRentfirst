@@ -1,0 +1,265 @@
+﻿
+@model CarModelDto
+
+@{
+    ViewData["title"] = "السيارات";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> السيارات </span>
+        </h4>
+    </div>
+    <div id="_PartialCar">
+        <partial name="_PartialCar.cshtml" model="Model.CarRegisterDto" />
+    </div>
+
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>م</th>
+                        <th>اسم السيارة</th>
+                        <th> المالك  </th>
+                        <th> رقم السيارة</th>
+                        <th> الموديل</th>
+                        <th> سعر اليوم</th>
+                        <th>  أقل سعر لليوم</th>
+                        <th>  سعر الكم الزائد</th>
+                        <th>سعر التأخير بالساعة</th>
+                        <th> سعر غسيل السيار</th>
+                        <th> سعر التأجير بالشهر</th>
+                        <th> رقم Gps </th>
+                        @*<th> التفعيل </th>*@
+                        <th> الشركة </th>
+                        <th>صور/فيديوهات</th>
+                        <th>تعديل /حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CarGetDtos)
+                    {
+                    <tr>
+                        <td>@(index++)</td>
+                        <td>@item.Name</td>
+                        <td>@item.CarOwnerName</td>
+                        <td>@item.Number</td>
+                        <td>@item.CarModel</td>
+                        <td>@item.PriceOfDaye</td>
+                        <td>@item.MinPriceOfDaye</td>
+                        <td>@item.PricePerKm</td>
+                        <td>@item.PriceTimeLatePerHoure</td>
+                        <td>@item.PriceWash</td>
+                        <td>@item.PriceRentOwnerPerMonth</td>
+                        <td>@item.GpsNumber</td>
+                        @*<td>@item.Active</td>*@
+                        <td>@item.CompanyName</td>
+                        <td>
+
+                            @if (item.CarPhotos != null && item.CarPhotos.Count != 0)
+                            {
+                                <a href="" class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#car-image-modal" onclick="GetPhotos(this)" id="@item.Id">
+                                    <i class="bi bi-images"></i>
+                                </a>
+                            }
+                            @if (item.CarVideos != null && item.CarVideos.Count != 0)
+                            {
+                                <a href="" class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#car-video-modal" onclick="GetVideos(this)" id="@item.Id">
+                                    <i class="bi bi-play-btn"></i>
+                                </a>
+                            }
+                        </td>
+                        <td>
+                            <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@item.Id">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            <a onclick="deleteData(this);" class="btn btn-sm btn-danger" id="@item.Id">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal For Photos-->
+
+<div class="modal fade" id="car-image-modal" tabindex="-1" aria-labelledby="car-image-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="car-image-modalLabel">صور السيارة </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="div_image">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal For Videos-->
+
+<div class="modal fade" id="car-video-modal" tabindex="-1" aria-labelledby="car-image-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="car-image-modalLabel">فيديوهات  السيارة </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="div_video">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        function loadData(e) {
+
+            $("#_PartialCar").load('/Owners/Car/GetData/' + e.id);
+
+        }
+
+        function deleteData(d) {
+            var result = confirm('هل تريد حذف هذه السيارة ؟');
+            if (result) {
+
+                window.location.href = '/Owners/Car/Delete/' + d.id;
+
+            }
+        };
+
+
+
+        //Get Photos
+        function GetPhotos(p) {
+            $.ajax({
+                url: "/Owners/Car/GetCarPhotos/" + p.id,
+                dataType: 'json',
+                data: '',
+                contentType: "application/json",
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        $(" <div class='col-md-4 col-sm-6' id='parent'>" +
+                            "<div class='card' > " +
+                            "<img class='card-img-top' src=" + value.image + "  alt='Card image cap' >" +
+                            "<div class='card-body text-center'>" +
+                            "<button id=" + value.id + " class='card-link btn btn-danger' onclick='DeletePhoto(this)' ><i class='bi bi-trash3-fill'></i></button>" +
+                            "<a href=" + value.image + " class='card-link btn btn-info' download=" + value.name + '.jpg' + " ><i class='bi bi-download'></i></a>" +
+                            "<a href=" + value.image + " class='card-link btn btn-secondary'  target='_blank' > <i class='bi bi-eye-fill'></i></a>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>").appendTo("#div_image");
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        }
+
+        //Empty Modal
+        $("#car-image-modal").on("hidden.bs.modal", function () {
+            $("#div_image").empty();
+        });
+
+        //Delete Photo
+        function DeletePhoto(d) {
+            var btn = $(d);
+            console.log(btn);
+            var result = confirm("هل أنت متأكد من الحذف !!!");
+            if (result) {
+                $.ajax({
+                    url: "/Owners/Car/DeletePhoto/" + d.id,
+                    success: function (response) {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents("#parent").fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error('خطاء أثناء الحذف !!!');
+                    }
+                });
+            }
+        }
+
+
+        //Get Videos
+        function GetVideos(v) {
+            $.ajax({
+                url: "/Owners/Car/GetCarVideos/" + v.id,
+                dataType: 'json',
+                data: '',
+                contentType: "application/json",
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        $(" <div class='col-md-4 col-sm-6' id='parent'>" +
+                            "<div class='card' > " +
+                            "<video width='238' controls>" +
+                            " <source src=" + value.video + " type='video/mp4'>" +
+                            "</video>" +
+                            "<div class='card-body text-center'>" +
+                            "<button id=" + value.id + " class='card-link btn btn-danger' onclick='DeleteVideo(this)' ><i class='bi bi-trash3-fill'></i></button>" +
+                            "<a href=" + value.video + " class='card-link btn btn-info' download=" + value.name + '.mp4' + " ><i class='bi bi-download'></i></a>" +
+                            "<a href=" + value.video + " class='card-link btn btn-secondary'  target='_blank' > <i class='bi bi-eye-fill'></i></a>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>").appendTo("#div_video");
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        }
+
+        //Empty Modal
+        $("#car-video-modal").on("hidden.bs.modal", function () {
+            $("#div_video").empty();
+        });
+
+        //Delete Video
+        function DeleteVideo(d) {
+            var btn = $(d);
+            console.log(btn);
+            var result = confirm("هل أنت متأكد من الحذف !!!");
+            if (result) {
+                $.ajax({
+                    url: "/Owners/Car/DeleteVideo/" + d.id,
+                    success: function (response) {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents("#parent").fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error('خطاء أثناء الحذف !!!');
+                    }
+                });
+            }
+        }
+
+
+
+    </script>
+}
+

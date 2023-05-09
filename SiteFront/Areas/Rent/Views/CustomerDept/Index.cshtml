@@ -1,0 +1,80 @@
+﻿@model CustomerDeptModelDto
+@{
+    ViewData["Title"] = " مديونية العملاء";
+}
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> مديونية العملاء </span>
+        </h4>
+    </div>
+    <div id="PartialCustomerDept">
+        <partial name="_PartialCustomerDept.cshtml" model="Model.CustomerDeptRegisterDto" />
+    </div>
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table" id="table-data">
+                <thead>
+                    <tr>
+                        <th>اسم العميل  </th>
+                        <th> قيمة الدين</th>
+                        <th> التاريخ</th>
+                        <th>ملاحظات</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CustomerDeptGetDtos)
+                    {
+                        <tr>
+                            <td>@item.CustomerName</td>
+                            <td>@item.DebtValue</td>
+                            <td>@item.Date.ToShortDateString()</td>
+                            <td>@item.Notes</td>
+
+                            <td>
+                                <button class="btn btn-sm btn-info " onclick="loadData(this)" id="@item.Id">
+                                    <i class="bi bi-pen"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger btn-delete" data-id="@item.Id">
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        function loadData(e) {
+            $("#PartialCustomerDept").load("/Rent/CustomerDept/GetData/" + e.id);
+        }
+
+        //Delete
+        $(".btn-delete").on("click", function () {
+            var btn = $(this);
+            var result = confirm("هل أنت متأكد من الحذف ؟؟");
+            if (result) {
+                $.ajax({
+                    url: "/Rent/CustomerDept/Delete/" + btn.data('id'),
+                    method: "GET",
+                    async: true,
+                    success: function () {  
+                        btn.parents('tr').fadeOut();
+                        toastr.success("تم الحذف بنجاح");
+                    },
+                    error: function (response) {
+                        toastr.error("حدث خطأ أثناء الحذف !!");
+                    }
+                });
+            }
+        });
+    </script>
+}

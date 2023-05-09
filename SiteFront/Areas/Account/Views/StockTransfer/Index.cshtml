@@ -1,0 +1,81 @@
+﻿@model StockTransferModelDto
+@{
+    ViewData["title"] = "تحويلات الخزنة";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> تحويلات الخزنة  </span>
+        </h4>
+    </div>
+
+
+    <div id="_PartialStockTransfer">
+        <partial name="_PartialStockTransfer.cshtml" model=" Model.StockTransferRegisterDto"/>
+    </div>
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>المسلسل</th>
+                        <th>من خزنة</th>
+                        <th>الى خزنة</th>
+                        <th>التاريخ</th>
+                        <th>المبلغ</th>
+                        <th>ملاحظات</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var CashDeposit in Model.StockTransferGetDtos)
+                    {
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@CashDeposit.StockFromName</td>
+                            <td>@CashDeposit.ToStockName</td>
+                            <td>@CashDeposit.Date.ToShortDateString()</td>
+                            <td>@CashDeposit.Value</td>
+                            <td>@CashDeposit.Notes</td>
+
+                            <td>
+                                <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@CashDeposit.Id">
+                                    <i class="bi bi-pen"></i>
+                                </a>
+                                <a onclick="deleteData(this)" class="btn btn-sm btn-danger" id="@CashDeposit.Id">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        function loadData(e) {
+
+            $("#_PartialStockTransfer").load('/Account/StockTransfer/GetData/' + e.id);
+
+        }
+
+        function deleteData(d) {
+            var result = confirm('هل تريد حذف هذه الخزنة؟');
+            if (result) {
+
+                window.location.href = '/Account/StockTransfer/Delete/' + d.id;
+
+            }
+        };
+    </script>
+}

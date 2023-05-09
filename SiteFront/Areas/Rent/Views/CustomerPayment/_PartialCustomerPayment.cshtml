@@ -1,0 +1,70 @@
+﻿
+@model CustomerPayRegisterDto
+
+
+<form asp-action="@(Model.Id !=null ? "Edit" : "Create")" method="post">
+
+
+    <div class="box mb-3 p-3">
+        <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+            <input type="hidden" asp-for="Id" />
+
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" id="customer" asp-for="CustomerId" asp-items="@(new SelectList(Model.Customers,"Id","name"))">
+                    <option value="">اختر اسم العميل</option>
+                </select>
+                <label asp-for="CustomerId">اسم العميل</label>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" readonly id="CurrentDebt" class="form-control" asp-for="CurrentDebt" placeholder="" />
+                    <label asp-for="CurrentDebt">الدين الحالي</label>
+                    <span asp-validation-for="CurrentDebt" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="Value" id="" placeholder="" />
+                    <label asp-for="Value">القيمة</label>
+                    <span asp-validation-for="Value" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="date" class="form-control" asp-for="Date" id="" placeholder="" />
+                    <label asp-for="Date"> التاريخ</label>
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" asp-for="StockId" asp-items="@(new SelectList(Model.Stocks,"Id","name"))">
+                    <option value="" selected>اختر الخزنة</option>
+                </select>
+                <label asp-for="StockId">الخزنة</label>
+                <span asp-validation-for="StockId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Notes" id="" placeholder="" />
+                    <label asp-for="Notes">الملاحظات</label>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <input type="submit" value="@(Model.Id !=null ? "تعديل" : "حفظ")" class="btn w-100 btn-primary">
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+

@@ -1,0 +1,51 @@
+﻿@model List<CustomerReportGetDto>
+@{
+    int index = 1;
+}
+
+<div class="container-fluid">
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th> مسلسل</th>
+                        <th>العميل</th>
+                        <th> العنوان</th>
+                        <th>رقم الهاتف</th>
+                        <th>  الرقم القومي</th>
+                        <th>رقم الجواز </th>
+                        <th> المحافظة </th>
+                        <th>  الدولة </th>
+                        <th>  التقييم </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(index++) </td>
+                            <td>@item.Name</td>
+                            <td>@item.Address</td>
+                            <td>@item.phone1</td>
+                            <td>@item.IdentNumber</td>
+                            <td>@item.PassportNumber</td>
+                            <td>@item.GovernmentName</td>
+                            <td>@item.Country</td>
+                            <td>@item.CustomerEvaluationName</td>
+
+                            @*<td>
+                                <a asp-action="Edit" asp-controller="CustomerRent" asp-area="Rent" asp-route-id="@item.Id" class="btn w-30  btn-primary"> الذهاب الي التأجير </a>
+                            </td>
+                            <td>
+                                <a asp-action="EditRentBack" asp-controller="CareStats" asp-area="Rent" asp-route-id="@item.Id" class="btn btn-primary w-30">استلام السيارة</a>
+                            </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

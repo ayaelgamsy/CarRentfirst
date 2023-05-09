@@ -1,0 +1,81 @@
+﻿@model UserEditDto
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<div class="title">
+    <h4>
+        <span> تعديل مستخدم </span>
+    </h4>
+</div>
+<form method="post" asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <div class="row g-4 justify-content-center">
+        <div class="col-sm-9 col-md-4 login-form">
+            <div class="bg-light align-items-center">
+                <div class="p-5">
+                    <div class="form-floating mb-2">
+                        <input type="text"
+                               class="form-control"
+                               asp-for="Name"
+                               placeholder="" />
+                        <label asp-for="Name">اسم المستخدم</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="text"
+                               class="form-control"
+                               asp-for="PhoneNumber"
+                               placeholder="" />
+                        <label asp-for="PhoneNumber">رقم الهاتف</label>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="email"
+                               class="form-control"
+                               asp-for="Email"
+                               placeholder="" />
+                        <label asp-for="PhoneNumber">البريد الالكتروني</label>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <div class="form-label-group-custome">
+                            <label for="">المجموعات</label>
+                            <div class="form-group">
+
+                                @for (int x = 0; x < Model.Roles.Count; x++)
+                                {
+                                    <input type="hidden" asp-for="@Model.Roles[x].Id">
+                                    <input type="hidden" asp-for="@Model.Roles[x].Name">
+                                    <input type="checkbox" class="form-check-input" id="Doc-check" asp-for="@Model.Roles[x].Isselected">
+                                    <label asp-for="@Model.Roles[x].Isselected">@Model.Roles[x].Name</label>
+                                }
+
+
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="form-floating mb-2">
+                            <input class="btn w-100 btn-primary" type="submit" value="تعديل المستخدم">
+                        </div>
+                        <div class="form-floating mb-2">
+                            <a class="btn w-100 btn-block btn-info" asp-action="Index">الرجوع للرئيسية</a>
+                        </div>
+                    </div>
+         
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+

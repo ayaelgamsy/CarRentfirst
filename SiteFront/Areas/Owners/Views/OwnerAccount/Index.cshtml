@@ -1,0 +1,52 @@
+﻿@model OwnerAccountModelDto
+
+
+@{
+    ViewData["Title"] = "  كشف حساب الملاك";
+}
+
+<form asp-area="Owners" asp-controller="OwnerAccount" asp-action="Create" method="post">
+    <div class="container-fluid">
+        <div class="title">
+            <h4>
+                <span> كشف حساب الملاك </span>
+            </h4>
+        </div>
+        <div class="box mb-3 p-3">
+            <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <select class="form-select select2" asp-for="OwnerAccountRegisterDto.OwnerId" id="" asp-items="@(new SelectList(Model.OwnerAccountRegisterDto.CarOwners,"Id","name"))" aria-label="">
+                            <option value="">اختر اسم المالك</option>
+                        </select>
+                        <label asp-for="OwnerAccountRegisterDto.OwnerId">المالك</label>
+                        <span asp-validation-for="OwnerAccountRegisterDto.OwnerId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="date" asp-for="OwnerAccountRegisterDto.FromDate" class="form-control" id="" placeholder="" />
+                        <label asp-for="OwnerAccountRegisterDto.FromDate">من تاريخ</label>
+                        <span asp-validation-for="OwnerAccountRegisterDto.FromDate" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="date" asp-for="OwnerAccountRegisterDto.ToDate" class="form-control" id="" placeholder="" />
+                        <label asp-for="OwnerAccountRegisterDto.ToDate">إلى تاريخ</label>
+                        <span asp-validation-for="OwnerAccountRegisterDto.ToDate" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <input type="submit" value="بحث" class="btn w-100 btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="PartialOwnerAccount">
+    <partial name="_PartialOwnerAccount.cshtml" model="Model.OwnerAccountGetDtos" />
+</div>

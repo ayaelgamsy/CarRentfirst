@@ -1,0 +1,47 @@
+﻿@model CustomerDeptRegisterDto
+
+<form method="POST" asp-area="Rent" asp-controller="CustomerDept" asp-action="@(Model.Id != null ? "Edit" : "Create")">
+    <div class="box mb-3 p-3">
+        <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <select class="form-select select2" asp-for="CustomerId" asp-items="@(new SelectList(Model.Customers,"Id","Name"))">
+                        <option value="">اختر العميل</option>
+                    </select>
+                    <label asp-for="CustomerId">العميل</label>
+                    <span asp-validation-for="CustomerId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="DebtValue" />
+                    <label asp-for="DebtValue">قيمة الدين</label>
+                    <span asp-validation-for="DebtValue" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="date" class="form-control" asp-for="Date" />
+                    <label asp-for="Date">التاريخ</label>
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Notes" />
+                    <label asp-for="Notes">ملاحظات</label>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <button class="btn w-100 btn-primary" type="submit"> @(Model.Id != null ? "تعديل" : "حفظ")</button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,59 @@
+﻿@model List<CarStatusGetDto>
+@{
+    int index = 1;
+}
+
+<div class="container-fluid">
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th> مسلسل</th>
+                        <th>السيارة</th>
+                        <th>التفعيل</th>
+                        <th>متاحة للتأجير</th>
+                        <th>العميل</th>
+                        <th>من</th>
+                        <th>الي</th>
+                        <th>الموظف</th>
+                        <th>تاريخ الاستحقاق</th>
+                        <th>عدد الايام</th>
+                        <th>المدفوع</th>
+                        <th>الحساب الكلي</th>
+                        <th>المسافة الزائدة </th>
+                        <th>سعر الغسيل</th>
+                        <th>الساعات الزائدة</th>
+                        <th>الذهاب الي التأجير</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@(index++) </td>
+                        <td>@item.CarName</td>
+                        <td>@item.CarActive</td>
+                        <td>@item.CarAvailable</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.StartDate</td>
+                        <td>@item.EndDate</td>
+                        <td>@item.EmployeeName</td>
+                        <td>@item.DueDate.ToShortDateString()</td>
+                        <td>@item.NumberOfDays</td>
+                        <td>@item.PaymentFinal</td>
+                        <td>@item.FinalTotalAfterLate</td>
+                        <td>@item.IncreaseDistanc</td>
+                        <td>@item.PriceWash</td>
+                        <td>@item.LateHours</td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="CustomerRent" asp-area="Rent" asp-route-id="@item.Id"  class="btn w-30  btn-primary"> الذهاب الي التأجير </a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

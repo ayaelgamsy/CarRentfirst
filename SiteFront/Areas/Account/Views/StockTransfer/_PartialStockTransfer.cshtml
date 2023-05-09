@@ -1,0 +1,62 @@
+﻿@model StockTransferRegisterDto
+
+
+
+    <form asp-action="@(Model.Id !=null ? "Edit" : "Create")" method="post">
+        <div class="box mb-3 p-3">
+            <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <select class="form-select select2" required id="" aria-label="" asp-for="FromStockId" asp-items="@(new SelectList(Model.DrpstockDto,"Id","Name"))">
+                            <option value="">اختر اسم الخزنة</option>
+                        </select>
+                        <span asp-validation-for="FromStockId" class="text-danger "></span>
+
+                        <label for="">تحويل من خزنة</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" type="text" class="form-control" asp-for="Value" id="" placeholder="" />
+                        <label asp-for="Value" for="">المبلغ</label>
+                        <span asp-validation-for="Value" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <select class="form-select select2" required id="" aria-label="" asp-for="ToStockId" asp-items="@(new SelectList(Model.DrpstockDto,"Id","Name"))">
+                            <option value="">اختر اسم الخزنة</option>
+                        </select>
+                        <span asp-validation-for="ToStockId" class="text-danger "></span>
+
+                        <label for="">تحويل الى خزنة</label>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="date" class="form-control" asp-for="Date" id="" placeholder="" />
+                        <label asp-for="Date" for=""> التاريخ</label>
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" asp-for="Notes" id="" placeholder="" />
+                        <label asp-for="Notes" for="">ملاحظات</label>
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <input type="submit" value="@(Model.Id !=null ? "تعديل" : "حفظ")" class="btn w-100 btn-primary">
+                </div>
+            </div>
+        </div>
+    </form>
+
+

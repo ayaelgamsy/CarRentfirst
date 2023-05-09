@@ -1,0 +1,48 @@
+﻿@model List<ExpenseGetDto>
+@{ 
+    int index = 1;
+}
+
+<div class="container-fluid">
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>المسلسل</th>
+                        <th>المصروف</th>
+                        <th>الخزنة</th>
+                        <th>التاريخ</th>
+                        <th>المبلغ</th>
+                        <th>ملاحظات</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Expense in Model)
+                    {
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@Expense.ExpenseTypeName</td>
+                            <td>@Expense.StockName</td>
+                            <td>@Expense.Date.ToShortDateString()</td>
+                            <td>@Expense.Value</td>
+                            <td>@Expense.Notes</td>
+
+                            <td>
+                                <a asp-area="Account" asp-controller="Expenses" asp-action="Create" asp-route-Id="@Expense.Id" class="btn btn-sm btn-info">
+                                    <i class="bi bi-pen"></i>
+                                    تعديل
+                                </a>
+                                <a onclick="deleteData(this)" class="btn btn-sm btn-danger" id="@Expense.Id">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

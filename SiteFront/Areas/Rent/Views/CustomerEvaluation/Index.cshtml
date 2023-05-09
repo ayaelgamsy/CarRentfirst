@@ -1,0 +1,79 @@
+﻿
+@model CustomerEvaluationModelDto
+
+@{
+    ViewData["title"] = "التقييمات";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> التقييمات </span>
+        </h4>
+    </div>
+    <div id="_PartialCustomerEvaluation">
+        <partial name="_PartialCustomerEvaluation.cshtml" model="Model.CustomerEvaluationRegisterDto" />
+    </div>
+
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>المسلسل</th>
+                        <th> التقييم</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CustomerEvaluationGetDtos)
+                    {
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@item.Name</td>
+                            <td>
+                                <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@item.Id">
+                                    <i class="bi bi-pen"></i>
+                                </a>
+                                <a onclick="deleteData(this)" class="btn btn-sm btn-danger" id="@item.Id" name="@item.Name">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+
+        function loadData(e) {
+
+            $("#_PartialCustomerEvaluation").load('/Rent/CustomerEvaluation/GetData/' + e.id);
+
+        }
+
+        function deleteData(d) {
+            
+            var result = confirm(' هل تريد حذف التقييم ' + d.name + ' ؟');
+            if (result) {
+                window.location.href = '/Rent/CustomerEvaluation/Delete/' + d.id;
+            }
+        };
+    </script>
+}
+
+
+
+
+

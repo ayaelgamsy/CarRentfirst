@@ -1,0 +1,142 @@
+﻿@model CarRegisterDto
+
+
+<form asp-action="@(Model.Id !=null ? "Edit" : "Create")" method="post" enctype="multipart/form-data">
+
+
+    <div class="box mb-3 p-3">
+        <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Name" id="" placeholder="" />
+                    <label asp-for="Name">اسم السيارة</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" asp-for="CarOwnertId" asp-items="@(new SelectList(Model.CarOwners,"Id","name"))">
+                    <option value="">اختر المالك</option>
+                </select>
+                <label asp-for="CarOwnertId">المالك</label>
+                <span asp-validation-for="CarOwnertId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Number" id="" placeholder="" />
+                    <label asp-for="Number">رقم السيارة</label>
+                    <span asp-validation-for="Number" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="CarModel" placeholder="" />
+                    <label asp-for="CarModel"> موديل السيارة </label>
+                    <span asp-validation-for="CarModel" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="PriceOfDaye" placeholder="" />
+                    <label asp-for="PriceOfDaye">سعر اليوم</label>
+                    <span asp-validation-for="PriceOfDaye" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="MinPriceOfDaye" placeholder="" />
+                    <label asp-for="MinPriceOfDaye"> أقل سعر لليوم</label>
+                    <span asp-validation-for="MinPriceOfDaye" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="PricePerKm" id="" placeholder="" />
+                    <label asp-for="PricePerKm">   سعر الكم الزائد</label>
+                    <span asp-validation-for="PricePerKm" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="PriceTimeLatePerHoure" id="" placeholder="" />
+                    <label asp-for="PriceTimeLatePerHoure">   سعر التأخير بالساعة</label>
+                    <span asp-validation-for="PriceTimeLatePerHoure" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="PriceWash" id="" placeholder="" />
+                    <label asp-for="PriceWash">    سعر غسيل السيار</label>
+                    <span asp-validation-for="PriceWash" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="PriceRentOwnerPerMonth" id="" placeholder="" />
+                    <label asp-for="PriceRentOwnerPerMonth">سعر التأجير بالشهر</label>
+                    <span asp-validation-for="PriceRentOwnerPerMonth" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="GpsNumber" id="" placeholder="" />
+                    <label asp-for="GpsNumber"> رقم Gps</label>
+                    <span asp-validation-for="GpsNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <div class="mb-3 form-check form-select" style="background-image:none">
+                        <input type="checkbox" checked class="form-check-input" asp-for="Active" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">مفعل  </label>
+                    </div>
+                    <label asp-for="Active">التفعيل</label>
+                    <span asp-validation-for="Active" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" asp-for="CompanyId" asp-items="@(new SelectList(Model.Companys,"Id","name"))">
+                    <option value="">اختر الشركة</option>
+                </select>
+                <label asp-for="CompanyId">الشركة</label>
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="file" class="form-control" asp-for="CarPhotoFile" multiple />
+                    <label asp-for="CarPhotoFile">صور السيارة</label>
+                    <span asp-validation-for="CarPhotoFile" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="file" class="form-control" asp-for="CarVideoFile" multiple />
+                    <label asp-for="CarVideoFile"> فيديوهات السيارة</label>
+                    <span asp-validation-for="CarVideoFile" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="col">
+                <input type="submit" value="@(Model.Id !=null ? "تعديل" : "حفظ")" class="btn w-100 btn-primary">
+            </div>
+
+        </div>
+    </div>
+</form>
+

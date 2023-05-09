@@ -1,0 +1,93 @@
+﻿@model ExpenseTypeRegisterDto
+@{
+    ViewData["title"] = "انواع المصروفات";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> @(Model.Id !=null ? "تعديل نوع مصروف" : "اضافة نوع مصروف")  </span>
+        </h4>
+    </div>
+   
+
+
+    <form asp-action="@(Model.Id !=null ? "Edit" : "Create")" method="post">
+
+
+        <div class="box mb-3 p-3">
+            <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" asp-for="Name" id="" placeholder="" />
+                        <label asp-for="Name" for="">اسم المصروف</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+               
+
+
+                <div class="col">
+                    <input type="submit" value="@(Model.Id !=null ? "تعديل" : "حفظ")" class="btn w-100 btn-primary">
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>المسلسل</th>
+                        <th>المصروف</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Expense in Model.ExpenseTypeGetDtos)
+                    {
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@Expense.Name</td>
+                            
+
+                            <td>
+                                <a asp-area="Account" asp-controller="ExpenseType" asp-action="Index" asp-route-Id="@Expense.Id" class="btn btn-sm btn-info">
+                                    <i class="bi bi-pen"></i>
+                                    تعديل
+                                </a>
+                                <a onclick="deleteData(this)" class="btn btn-sm btn-danger" id="@Expense.Id">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+
+        function deleteData(d) {
+            var result = confirm('هل تريد حذف هذه الخزنة؟');
+            if (result) {
+
+                window.location.href = '/Account/ExpenseType/Delete/' + d.id;
+
+            }
+        };
+    </script>
+}

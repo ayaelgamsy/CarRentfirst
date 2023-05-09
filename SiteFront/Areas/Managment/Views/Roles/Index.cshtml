@@ -1,0 +1,72 @@
+﻿
+@model List<RolesGetDto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="title">
+    <h4>
+        <span> المجموعات </span>
+    </h4>
+</div>
+
+<div class="box mb-3 p-3">
+    <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+
+        <div class="col">
+           
+
+            <a asp-action="Create" class="btn w-100 btn-primary">
+                <i class="fa fa-plus"></i>
+                <span class="">
+                    اضافه مجموعه
+                </span>
+            </a>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="box mb-3 p-3">
+    <div class="table-responsive-md">
+        <table class="table full-table">
+
+            <thead>
+                <tr>
+                    <th>
+                        المجموعه
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-info text-capitalize">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger text-capitalize ml-4 ">Delete</a>
+                            <a asp-action="MangeRolePermition" asp-route-id="@item.Id" class="btn btn-sm btn-info text-capitalize">MangeRolePermition</a> |
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+    </div>
+</div>
+
+

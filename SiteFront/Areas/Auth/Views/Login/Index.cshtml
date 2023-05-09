@@ -1,0 +1,57 @@
+﻿
+@model LoginDto
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<section class="login">
+    <div class="container-fluid p-0">
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 align-items-center justify-content-center g-0 m-0">
+            <div class="col login-img d-none d-sm-none d-md-block">
+                <div></div>
+            </div>
+            <div class="col login-form">
+                <div class="bg-light align-items-center">
+                    <div class="text-center pt-5 px-3">
+                        <img src="~/assets/images/logo.jpg" style="width:350px;height:auto;" alt="logo" class="" />
+                        <h3 class="fw-bold my-2">أهلا بك في برنامج السيارات</h3>
+                    </div>
+                    <form method="post">
+
+
+                        <div class="p-5">
+                            <div class="form-floating mb-2">
+
+
+                                <input type="text" asp-for="Email" class="form-control" placeholder="." />
+                                <label for="">اسم المستخدم</label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+
+                            </div>
+                            <div class="form-floating mb-2">
+                                <input type="password" asp-for="Password" class="form-control" placeholder="." />
+                                <label for="">كلمة المرور</label>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-2">
+                                <button class="btn w-100 btn-primary">تسجيل الدخول</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                    <footer class="">
+                        <div class="container-fluid">
+                            <div class="text-center">
+                                جميع الحقوق محفوظة لشركة TabibSoft 2023.
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

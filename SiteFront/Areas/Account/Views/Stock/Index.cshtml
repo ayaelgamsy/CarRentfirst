@@ -1,0 +1,120 @@
+﻿@*@model List<StockGetDto>*@
+@model StockRegisterDto
+@{
+    ViewData["title"] = "الخزن";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> @(Model.Id !=null ? "تعديل الخزنة" : "اضافة خزنة")  </span>
+        </h4>
+    </div>
+    @*<div id="_PartialStock">*@
+
+
+
+    <form asp-action="@(Model.Id !=null ? "Edit" : "Create")" method="post">
+
+
+        <div class="box mb-3 p-3">
+            <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" asp-for="Name" id="" placeholder="" />
+                        <label asp-for="Name" for="">اسم الخزنة</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" value="@Model.StartAccount" type="text" class="form-control" asp-for="StartAccount" id="" placeholder="" />
+                        <label asp-for="StartAccount" for=""> رصيد البداية</label>
+                        <span asp-validation-for="StartAccount" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="date" class="form-control"  asp-for="Date" id="" placeholder="" />
+                        <label asp-for="Date" for=""> التاريخ</label>
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+
+                <div class="col">
+                    <input type="submit" value="@(Model.Id !=null ? "تعديل" : "حفظ")" class="btn w-100 btn-primary">
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+
+    @* </div> *@
+
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>المسلسل</th>
+                        <th>اسم الخزنة</th>
+                        <th> الرصيد البدائي</th>
+                        <th>  التاريخ</th>
+                        <th> الرصيد الحالي</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Stock in Model.StockGetDto)
+                    {
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@Stock.Name</td>
+                            <td>@Stock.StartAccount</td>
+                            <td>@Stock.Date.ToShortDateString()</td>
+                            <td>@Stock.Account</td>
+
+                            <td>
+                                <a asp-area="Account" asp-controller="Stock" asp-action="Index" asp-route-Id="@Stock.Id" class="btn btn-sm btn-info">
+                                    <i class="bi bi-pen"></i>
+                                    تعديل
+                                </a>
+                                <a onclick="deleteData(this)" class="btn btn-sm btn-danger" id="@Stock.Id">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+
+        function deleteData(d) {
+            var result = confirm('هل تريد حذف هذه الخزنة؟');
+            if (result) {
+
+                window.location.href = '/Account/Stock/Delete/' + d.id;
+
+            }
+        };
+    </script>
+}

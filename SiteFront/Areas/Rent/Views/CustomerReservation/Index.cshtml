@@ -1,0 +1,222 @@
+﻿@model CustomerReservationModelDto
+
+@{
+    ViewData["Title"] = "حجز السيارات";
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> حجز السيارات </span>
+        </h4>
+    </div>
+
+    <div id="_PartialCustomerReservation">
+        <partial name="_PartialCustomerReservation.cshtml" model="Model.CustomerReservationRegisterDto" />
+    </div>
+
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>اسم العميل</th>
+                        <th>السياره</th>
+                        <th>الموظف</th>
+                        <th>تاريخ البداية</th>
+                        <th>عدد الايام</th>
+                        <th>تاريخ النهايه</th>
+                        <th> المسافة المتفق عليها</th>
+                        <th>القيمة</th>
+                        <th>ملاحظات</th>
+                        <th> صور الحجز</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CustomerReservationGetDtos)
+                    {
+                    <tr>
+                        <td>@item.Customer</td>
+                        <td>@item.CarName</td>
+                        <td>@item.MarketerName</td>
+                        <td>@item.StartDate.ToString("dd/MM/yyyy hh:mm tt")</td>
+                        <td>@item.NumberOfDays</td>
+                        <td>@item.EndDate.ToString("dd/MM/yyyy hh:mm tt")</td>
+                        <td>@item.AllowedDistance</td>
+                        <td>@item.Value</td>
+                        <td>@item.Notes</td>
+                        <td>
+                            @if (item.CustomerReservationPhotos.Count() != 0)
+                            {
+                                <a href="" type="button" data-bs-toggle="modal" data-bs-target="#car-image-modal" onclick="GetPhotos(this)" id="@item.Id">
+                                    <img src="~/Images/CustomerReservation/@(item.Id+"/"+item.CustomerReservationPhotos.Select(p=>p.PhotoUrl).LastOrDefault())" style="width:90px;height:50px;" class="img-thumbnail" alt="NoPhoto" />
+                                </a>
+                            }
+
+                        </td>
+                        <td>
+                            <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@item.Id">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            <a class="btn btn-sm btn-danger btn-delete" data-id="@item.Id">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="car-image-modal" tabindex="-1" aria-labelledby="car-image-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="car-image-modalLabel">صور الحجز </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="div_image">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        function loadData(e) {
+
+            $("#_PartialCustomerReservation").load('/Rent/CustomerReservation/GetData/' + e.id);
+
+        }
+
+        //Delete
+        $(".btn-delete").on("click", function () {
+            var btn = $(this);
+            if (confirm("هل انت متاكد من الحذف ؟")) {
+                $.ajax({
+                    url: "/Rent/CustomerReservation/Delete/" + btn.data("id"),
+                    method: "GET",
+                    async: true,
+                    success: function () {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents("tr").fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error('خطاء أثناء الحذف !!!');
+                    }
+                });
+            }
+        });
+
+
+        $("#StartDate").change(function () {
+            var startDate = $(this);
+            var numOfDays = $("#NumberOfDays");
+            if (numOfDays.val() != "0") {
+                var todayDate = new Date(startDate.val());
+                var endDate = todayDate;
+                if (numOfDays.val().includes(".")) {
+                    endDate.setDate(todayDate.getDate() + parseInt(numOfDays.val()));
+                }
+                else {
+                    endDate.setDate(todayDate.getDate() + parseInt(numOfDays.val() - 1));
+                }
+                var t = ('23:59');
+                var endDD = endDate.toISOString().split('T')[0] + "T" + t;
+                $("#EndDate").val(endDD);
+              
+            }
+        });
+
+        //Set End Date
+        function GetEndDate() {
+
+            var NumberOfDays = $("#NumberOfDays");
+            var startDate = $("#StartDate");
+            var todayDate = new Date(startDate.val());
+            var NumOfDay = NumberOfDays.val();
+            var endDate = todayDate;
+            if (NumOfDay.includes(".")) {
+                endDate.setDate(todayDate.getDate() + parseInt(NumOfDay));
+            }
+            else {
+                endDate.setDate(todayDate.getDate() + parseInt(NumOfDay - 1));
+            }
+            var t = ('23:59');
+            var endDD = endDate.toISOString().split('T')[0] + "T" + t;
+            $("#EndDate").val(endDD);
+
+        }
+
+        //Get Photos
+        function GetPhotos(p) {
+            $.ajax({
+                url: "/Rent/CustomerReservation/GetCustomerReservationPhotos/" + p.id,
+                dataType: 'json',
+                data: '',
+                contentType: "application/json",
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        $(" <div class='col-md-4 col-sm-6' id='parent'>" +
+                            "<div class='card' > " +
+                            "<img class='card-img-top' src=" + value.image + "  alt='Card image cap' >" +
+                            "<div class='card-body text-center'>" +
+                            "<button id=" + value.id + " class='card-link btn btn-danger' onclick='DeletePhoto(this)' ><i class='bi bi-trash3-fill'></i></button>" +
+                            "<a href=" + value.image + " class='card-link btn btn-info' download=" + value.name + '.jpg' + " ><i class='bi bi-download'></i></a>" +
+                            "<a href=" + value.image + " class='card-link btn btn-secondary'  target='_blank' > <i class='bi bi-eye-fill'></i></a>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>").appendTo("#div_image");
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        }
+
+        //Empty Modal
+        $("#car-image-modal").on("hidden.bs.modal", function () {
+            $("#div_image").empty();
+        });
+
+        //Delete Photo
+        function DeletePhoto(d) {
+            var btn = $(d);
+            console.log(btn);
+            var result = confirm("هل أنت متأكد من الحذف !!!");
+            if (result) {
+                $.ajax({
+                    url: "/Rent/CustomerReservation/DeletePhoto/" + d.id,
+                    success: function (response) {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents("#parent").fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error('خطاء أثناء الحذف !!!');
+                    }
+                });
+            }
+        }
+
+    </script>
+
+
+
+
+}

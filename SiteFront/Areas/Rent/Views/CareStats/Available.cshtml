@@ -1,0 +1,132 @@
+﻿@model List<CarAvailableGetDto>
+@{
+    ViewData["Title"] = "السيارات المتاحة";
+}
+
+
+
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> السيارات المتاحة </span>
+        </h4>
+    </div>
+
+    <div class="box mb-3 p-3">
+        <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+            @foreach (var item in Model)
+            {
+                @if (item.Active == true && item.Available == true)
+                {
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="~/Images/Cars/Photos/@(item.Id+"/"+item.CarPhotos.Select(p=>p.PhotoUrl).LastOrDefault())" style="width:400px;" class="img-thumbnail" alt="NoPhoto" />
+                            <div class="card-body">
+                                <h5 class="card-title"> موديل السيارة: @item.CarModel </h5>
+                                <p class="card-text">
+
+                                </p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">  اسم السيارة: @item.Name </li>
+                                <li class="list-group-item">  رقم السيارة: @item.Number</li>
+                                <li class="list-group-item">  تاريخ العودة : موجودة</li>
+
+                            </ul>
+
+                                <div class="card-body">
+                                    <a asp-area="Rent" asp-controller="CustomerRent" asp-action="RentIndex" asp-route-id="@item.Id" class="btn btn-primary w-100">تأجير</a>
+                                </div>
+
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> السيارات القادمة اليوم </span>
+        </h4>
+    </div>
+    <div class="box mb-3 p-3">
+        <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+            @foreach (var item in Model)
+            {
+
+                @if (item.Active == true && item.Available == false&&item.EndTripDate.Value.Date ==DateTime.Today.Date)
+                {
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="~/Images/Cars/Photos/@(item.Id+"/"+item.CarPhotos.Select(p=>p.PhotoUrl).LastOrDefault())" style="width:400px;" class="img-thumbnail" alt="NoPhoto" />
+                            <div class="card-body">
+                                <h5 class="card-title"> موديل السيارة: @item.CarModel </h5>
+                                <p class="card-text">
+
+                                </p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">  اسم السيارة: @item.Name </li>
+                                <li class="list-group-item">  رقم السيارة: @item.Number</li>
+
+                                <li class="list-group-item">  تاريخ العودة : @item.EndTripDate</li>
+
+                            </ul>
+                       
+                        </div>
+                    </div>
+                }
+            }
+            </div>
+    </div>
+</div>
+
+
+
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> السيارات  الغير مستلمة </span>
+        </h4>
+    </div>
+    <div class="box mb-3 p-3">
+        <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+            @foreach (var item in Model)
+            {
+
+                @if (item.Active == true && item.Available == false && item.EndTripDate.Value.Date != DateTime.Today.Date)
+                {
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="~/Images/Cars/Photos/@(item.Id+"/"+item.CarPhotos.Select(p=>p.PhotoUrl).LastOrDefault())" style="width:400px;" class="img-thumbnail" alt="NoPhoto" />
+                            <div class="card-body">
+                                <h5 class="card-title"> موديل السيارة: @item.CarModel </h5>
+                                <p class="card-text">
+
+                                </p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">  اسم السيارة: @item.Name </li>
+                                <li class="list-group-item">  رقم السيارة: @item.Number</li>
+
+                                <li class="list-group-item">  تاريخ العودة : @item.EndTripDate</li>
+
+                            </ul>
+
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+

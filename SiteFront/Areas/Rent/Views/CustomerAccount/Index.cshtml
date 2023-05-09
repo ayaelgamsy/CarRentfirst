@@ -1,0 +1,52 @@
+﻿@model CustomerAccountModelDto
+
+
+@{
+    ViewData["Title"] = "  كشف حساب العملاء";
+}
+
+<form asp-area="Rent" asp-controller="CustomerAccount" asp-action="Create" method="post">
+    <div class="container-fluid">
+        <div class="title">
+            <h4>
+                <span> كشف حساب العملاء </span>
+            </h4>
+        </div>
+        <div class="box mb-3 p-3">
+            <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <select class="form-select select2" asp-for="CustomerAccountRegisterDto.CustomerId" id="" asp-items="@(new SelectList(Model.CustomerAccountRegisterDto.Customers,"Id","name"))" aria-label="">
+                            <option value="">اختر اسم العميل</option>
+                        </select>
+                        <label asp-for="CustomerAccountRegisterDto.CustomerId">العميل</label>
+                        <span asp-validation-for="CustomerAccountRegisterDto.CustomerId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="date" asp-for="CustomerAccountRegisterDto.FromDate" class="form-control" id="" placeholder="" />
+                        <label asp-for="CustomerAccountRegisterDto.FromDate">من تاريخ</label>
+                        <span asp-validation-for="CustomerAccountRegisterDto.FromDate" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="date" asp-for="CustomerAccountRegisterDto.ToDate" class="form-control" id="" placeholder="" />
+                        <label asp-for="CustomerAccountRegisterDto.ToDate">إلى تاريخ</label>
+                        <span asp-validation-for="CustomerAccountRegisterDto.ToDate" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <input type="submit" value="بحث" class="btn w-100 btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="PartialCustomerAccount">
+    <partial name="_PartialCustomerAccount.cshtml" model="Model.CustomerAccountGetDtos" />
+</div>

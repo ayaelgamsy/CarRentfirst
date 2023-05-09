@@ -1,0 +1,50 @@
+﻿@model List<ViolationReportGetDto> 
+
+
+@{
+    int index = 1;
+}
+
+<div class="container-fluid">
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th> مسلسل</th>
+                        <th>السيارة</th>
+                        <th>العميل</th>
+                        <th> هاتف العميل 1 </th>
+                        <th> هاتف العميل 2 </th>
+                        <th> تاريخ المخالفة </th>
+                        <th>القيمة </th>
+                        <th>  رقم المخالفة </th>
+                        <th> مكان المخالفة </th>
+                        <th>  حالة المخالفة </th>
+                        <th> ملاحظات </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@(index++) </td>
+                        <td>@item.CarName</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.CustomerPhone1</td>
+                        <td>@item.CustomerPhone2</td>
+                        <td>@item.ViolationDate.ToShortDateString()</td>
+                        <td>@item.Value</td>
+                        <td>@item.ViolationNumber</td>
+                        <td>@item.ViolationPlace</td>
+                        <td>@item.ViolationState</td>
+                        <td>@item.Notes</td>
+
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

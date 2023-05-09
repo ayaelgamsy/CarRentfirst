@@ -1,0 +1,39 @@
+﻿@model ViolationReportModelDto
+
+
+@{
+    ViewData["Title"] = "  مخالفات السيارات";
+}
+
+<form asp-area="Rent" asp-controller="ViolationReport" asp-action="Create" method="post">
+    <div class="container-fluid">
+        <div class="title">
+            <h4>
+                <span> مخالفات السيارات  </span>
+            </h4>
+        </div>
+        <div class="box mb-3 p-3">
+            <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+
+                <div class="form-floating mb-2">
+                    <select class="form-select select2" asp-for="ViolationReportRegisterDto.CarId" asp-items="@(new SelectList(Model.ViolationReportRegisterDto.Cars,"Id","name"))">
+                        <option value="">اختر السياره</option>
+                    </select>
+                    <label asp-for="ViolationReportRegisterDto.CarId" class="form-label">السيارة</label>
+                    <span asp-validation-for="ViolationReportRegisterDto.CarId" class="text-danger"></span>
+                </div>
+
+                <div class="col">
+                    <input type="submit" value="بحث" class="btn w-100 btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="_PartialViolationReport">
+    <partial name="_PartialViolationReport.cshtml" model="Model.ViolationReportGetDtos" />
+</div>
+
+
+

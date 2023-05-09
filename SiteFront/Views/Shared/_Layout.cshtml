@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Tabibsoft</title>
+
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/assets/plugins/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/assets/plugins/icons/font/bootstrap-icons.css" />
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/assets/plugins/select2/css/select2.min.css" />
+    <!-- Uploader -->
+    <link rel="stylesheet" href="~/assets/plugins/uploader/css/uploader.css" />
+    <!-- dataTables -->
+    <link rel="stylesheet" href="~/assets/plugins/datatables/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/assets/plugins/datatables/buttons/buttons.dataTables.min.css" />
+    <!-- Main Custome Style -->
+    <link rel="stylesheet" href="~/assets/main/css/main.css" />
+
+    @await RenderSectionAsync("Style", required: false)
+
+</head>
+<body >
+
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand" href="#">
+                    <img src="~/assets/images/logo.jpg" style="width:100px;height:auto;" alt="logo"  class="" />
+                </a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active"
+                               aria-current="page"
+                               href="/Home/Index">
+                                <i class="bi bi-house"></i>
+                                الرئيسية
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link active"
+                               aria-current="page"
+                               asp-area="Rent" asp-controller="CareStats" asp-action="Available">
+                                <i class="bi bi-ev-front"></i>
+                                السيارات المتاحة
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link active"
+                               aria-current="page"
+                               asp-area="Rent" asp-controller="CareStats" asp-action="AvailableToday">
+                                <i class="bi bi-ev-front"></i>
+                                السيارات القادمة اليوم
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link active"
+                               aria-current="page"
+                               asp-area="Rent" asp-controller="CareStats" asp-action="NotAvailable">
+                                <i class="bi bi-ev-front"></i>
+                                السيارات الؤجرة
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="bi bi-ev-front"></i>
+                                السيارات
+                            </a>
+                            <ul class="dropdown-menu">
+
+                                <li>
+                                    <a class="dropdown-item" asp-area="Owners" asp-controller="Car" asp-action="Index"> السيارات</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="CustomerReservation" asp-action="Index"> حجز السيارات</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Owners" asp-controller="CarMaintenance" asp-action="Index">صيانة السيارات</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Owners" asp-controller="CarAccident" asp-action="Index">حوادث السيارات</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="CustomerViolation" asp-action="Index">مخالفات السيارات</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" asp-area="Setting" asp-controller="Companies" asp-action="Index">الشركات </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="bi bi-person-vcard-fill"></i>
+                                الموظفين
+                            </a>
+                            <ul class="dropdown-menu">
+
+                                <li>
+                                    <a class="dropdown-item" asp-area="Setting" asp-controller="Employees" asp-action="Index">الموظفيين</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" asp-area="Setting" asp-controller="Marketers" asp-action="Index">المسوقين</a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="bi bi-people"></i>
+                                الملاك
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" asp-area="Owners" asp-controller="Owner" asp-action="Index">الملاك</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Owners" asp-controller="OwnerRent" asp-action="Index">عقود الملاك</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Owners" asp-controller="OwnerPayment" asp-action="Index">دفعات الملاك</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="bi bi-person-bounding-box"></i>
+                                العملاء
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="Customers" asp-action="Index">العملاء </a>
+
+                                </li>
+                                <li>
+
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="CustomerEvaluation" asp-action="Index">تقييم العملاء </a>
+
+                                </li>
+                                <li>
+
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="CustomerDept" asp-action="Index">مديونية العملاء </a>
+
+                                </li>
+                                <li>
+
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="CustomerRent" asp-action="Index">تأجير العملاء </a>
+
+                                </li>
+                                <li>
+
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="CustomerPayment" asp-action="Index">مدفوعات العملاء </a>
+
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="bi bi-cash-coin"></i>
+                                الماليات
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" asp-area="Account" asp-controller="Stock" asp-action="Index">الخزن</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Account" asp-controller="CashDeposit" asp-action="Index">الايداع</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Account" asp-controller="Cashwithdrawal" asp-action="Index">السحب</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Account" asp-controller="ExpenseType" asp-action="Index">انواع المصرفات</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Account" asp-controller="Expenses" asp-action="Index"> كشف المصروفات</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Account" asp-controller="StockTransfer" asp-action="Index">تحويلات الخزن</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="bi bi-journal-text"></i>
+                                التقارير
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" asp-area="Account" asp-controller="StockMovement" asp-action="Index">حركة الخزنة</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Owners" asp-controller="OwnerAccount" asp-action="Index">كشف حساب الملاك</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="CustomerAccount" asp-action="Index">كشف حساب العملاء</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="CarStatusReport" asp-action="Index">تقرير السيارات  </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="CarAvailableByDate" asp-action="Index">عودة السيارات  </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="CustomerReport" asp-action="Index">تقرير تقييم العملاء   </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="ViolationReport" asp-action="Index">تقرير  المخالفات   </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="Rent" asp-controller="Customers" asp-action="CustomerData">تقرير  بيانات العملاء</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="bi bi-gear"></i>
+                                الاعدادات
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" asp-area="Managment" asp-controller="Roles" asp-action="Index"> المجموعات والصلاحيات</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" asp-area="Managment" asp-controller="Users" asp-action="Index">المستخدمين</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" asp-area="Setting" asp-controller="Government" asp-action="Index"> المحافظات</a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" asp-area="Auth" asp-controller="Login" asp-action="Index">تسجيل دخول</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section>
+        <div class="container-fluid">
+
+            @RenderBody()
+
+
+        </div>
+    </section>
+
+    <footer class="">
+        <div class="container-fluid">
+            <div class="text-center">جميع الحقوق محفوظة لشركة TabibSoft 2023.</div>
+        </div>
+    </footer>
+    <!-- JS Files -->
+
+    <script type="text/javascript" src="~/assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="~/assets/plugins/bootstrap/js/popper.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/bootstrap/js/bootstrap.js"></script>
+    <!-- Select2 -->
+    <script type="text/javascript" src="~/assets/plugins/select2/js/select2.min.js"></script>
+    <!-- Uploader -->
+    <script type="text/javascript" src="~/assets/plugins/uploader/js/uploader.js"></script>
+    <!-- dataTables -->
+    <script type="text/javascript" src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/datatables/checkboxes/dataTables.checkboxes.min.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/datatables/rowReorder/dataTables.rowReorder.min.js"></script>
+    <!-- Not Used -->
+    <script type="text/javascript" src="~/assets/plugins/datatables/select/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/datatables/buttons/dataTables.buttons.min.js"></script>
+    <!-- table buttons -->
+    <script type="text/javascript" src="~/assets/plugins/datatables/buttons/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/datatables/buttons/jszip.min.js"></script>
+    <!-- excel -->
+    <script type="text/javascript" src="~/assets/plugins/datatables/buttons/buttons.html5.min.js"></script>
+    <!-- copy -->
+    <script type="text/javascript" src="~/assets/plugins/datatables/buttons/buttons.print.min.js"></script>
+    <!-- print -->
+    <script type="text/javascript" src="~/assets/plugins/datatables/buttons/buttons.colVis.min.js"></script>
+    <!-- pdfMake -->
+    <script type="text/javascript" src="~/assets/plugins/pdfMake/pdfmake.min.js"></script>
+    <script type="text/javascript" src="~/assets/plugins/pdfMake/vfs_fonts.js"></script>
+
+    <!-- Main Custome Script -->
+    <script type="text/javascript" src="~/assets/main/js/main.js"></script>
+
+    <partial name="_ValidationScriptsPartial" />
+
+    @await Component.InvokeAsync("NToastNotify")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,206 @@
+﻿@model OwnerModelDto
+@{
+    ViewData["Title"] = "الملاك";
+}
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> الملاك </span>
+        </h4>
+    </div>
+    <div id="PartialAddOwner">
+        <partial name="_PartialAddOwner.cshtml" model="Model.OwnerRegister" />
+    </div>
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table" id="table-data">
+                <thead>
+                    <tr>
+                        <th>اسم المالك</th>
+                        <th>  الرقم القومي</th>
+                        <th> رقم الجواز</th>
+                        <th>رقم الهاتف</th>
+                        <th>اسم المحافظة</th>
+                        <th> الدولة</th>
+                        <th>العنوان</th>
+                        <th> صور البطاقة</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Model.OwnerGetDtos)
+                    {
+                    <tr>
+                        <td>@row.name</td>
+                        <td>@row.IdentNumber</td>
+                        <td>@row.PassportNumber</td>
+                        <td>@row.Phone</td>
+                        <td>@row.GovernmentName</td>
+                        <td>@row.Country</td>
+                        <td>@row.Address</td>
+                        <td>
+                            @if (row.CarOwnerPhotos != null && row.CarOwnerPhotos.Count != 0)
+                            {
+
+                                <a href="" type="button" data-bs-toggle="modal" data-bs-target="#car-image-modal" onclick="GetPhotos(this)" id="@row.Id">
+                                    <img src="~/Images/Owners/@row.Id/@row.CarOwnerPhotos.LastOrDefault().PhotoUrl" style="width:90px;height:50px;" class="img-thumbnail" alt="NoPhoto" />
+                                </a>
+                            }
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-info btn-edit-row" data-id="@row.Id">
+                                <i class="bi bi-pen"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger btn-delete-row" data-id="@row.Id">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="car-image-modal" tabindex="-1" aria-labelledby="car-image-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="car-image-modalLabel">صور البطاقة </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+          
+            <div class="modal-body">
+                <div class="row" id="div_image">
+              
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    @section Scripts{
+
+        <script type="text/javascript">
+            function GovernmentSelect(item) {
+                $('#GovernmentId').val(item).change();
+            }
+
+            $("#IdentNumber").change(function () {
+                $this = $("#IdentNumber");
+                if ($this.val().length == 14) {
+                    $.ajax({
+                        async: true,
+                        crossDomain: true,
+                        url: "/Setting/Government/GetId?code=" + $this.val().substring(7, 9),
+                        dataType: "json",
+                        type: "GET",
+                        headers: { "Access-Control-Allow-Origin": "*" },
+                        success: function (response) {
+                            if (response != null) {
+                                //console.log(response.id);
+                                GovernmentSelect(response.id);
+                            } else {
+                                GovernmentSelect("0");
+                            }
+                        },
+                        //error: function (response) {
+                        //    toastr.error('خطاء في كود المحافظة !!!');
+                        //}
+                    });
+                }
+            });
+
+            function ValidateIdent() {
+                var ident = $("#IdentNumber").val();
+                var pass = $("#passport").val();
+                if (ident == "" && pass == "") {
+                    alert("يجب ادخال رقم البطاقة او رقم الجواز");
+                }
+            };
+
+            $(".btn-delete-row").on("click", function () {
+                var btn = $(this);
+                console.log(btn);
+
+                if (confirm("Are Your Sure From Deleting This Row ?")) {
+                    $.ajax({
+                        url: "/Owners/Owner/DeleteOwner?ownerId=" + btn.data("id"),
+                        type: "DELETE",
+                        success: function (response) {
+                            toastr.success("تم الحذف بنجاح");
+                            btn.parents("tr").fadeOut();
+
+                        },
+                        error: function (response) {
+                            toastr.error('خطاء أثناء الحذف !!!');
+                        }
+                    });
+                }
+            });
+
+            $(".btn-edit-row").on("click", function () {
+                $("#PartialAddOwner").load('/Owners/Owner/GetData/' + $(this).data("id"));
+            });
+
+            //Get Photos
+            function GetPhotos(p) {
+                $.ajax({
+                    url: "/Owners/Owner/GetOwnerPhotos/" + p.id,
+                    dataType: 'json',
+                    data: '',
+                    contentType: "application/json",
+                    success: function (data) {
+                        $.each(data, function (key, value) {
+                            $(" <div class='col-md-4 col-sm-6' id='parent'>"+
+                                "<div class='card' > " +
+                                "<img class='card-img-top' src=" + value.image + "  alt='Card image cap' >" +
+                                "<div class='card-body text-center'>" +
+                                "<button id=" + value.id + " class='card-link btn btn-danger' onclick='DeletePhoto(this)' ><i class='bi bi-trash3-fill'></i></button>" +
+                                "<a href=" + value.image + " class='card-link btn btn-info' download=" + value.name + '.jpg' + " ><i class='bi bi-download'></i></a>" +
+                                "<a href=" + value.image + " class='card-link btn btn-secondary'  target='_blank' > <i class='bi bi-eye-fill'></i></a>" +
+                                "</div>"+
+                               "</div>"+
+                               "</div>").appendTo("#div_image");
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        alert(status);
+                    }
+                });
+            }
+
+            //Empty Modal 
+            $("#car-image-modal").on("hidden.bs.modal", function () {
+                $("#div_image").empty();
+            });
+
+            //Delete Photo 
+            function DeletePhoto(d) {
+                var btn = $(d);
+                console.log(btn);
+                var result = confirm("هل أنت متأكد من الحذف");
+                if (result) {
+                    $.ajax({
+                        url: "/Owners/Owner/DeletePhoto/" + d.id,
+                        success: function (response) {
+                            toastr.success("تم الحذف بنجاح");
+                            btn.parents("#parent").fadeOut();
+                        },
+                        error: function (response) {
+                            toastr.error('خطاء أثناء الحذف !!!');
+                        }
+                    });
+                }  
+            }
+
+
+        </script>
+    }

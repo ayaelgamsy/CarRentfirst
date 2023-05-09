@@ -1,0 +1,151 @@
+﻿
+@model CustomerRegisterDto
+
+
+<form asp-action="@(Model.Id !=null ? "Edit" : "Create")" method="post" enctype="multipart/form-data">
+
+
+    <div class="box mb-3 p-3">
+        <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Name" id="" placeholder="" />
+                    <label asp-for="Name">اسم العميل</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Address" id="" placeholder="" />
+                    <label asp-for="Address">عنوان العميل</label>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" maxlength="14" asp-for="IdentNumber" id="ident" placeholder="" />
+                    <label asp-for="IdentNumber"> الرقم القومي</label>
+                    <span asp-validation-for="IdentNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="PassportNumber" placeholder="" id="passport" />
+                    <label asp-for="PassportNumber">  رقم الجواز</label>
+                    <span asp-validation-for="PassportNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="date" class="form-control" id="date" asp-for="Date" placeholder="" />
+                    <label asp-for="Date">التاريخ</label>
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="StartAccount" placeholder="" />
+                    <label asp-for="StartAccount">الدين البدائي</label>
+                    <span asp-validation-for="StartAccount" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Email" placeholder="" />
+                    <label asp-for="Email">الايميل</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="phone1" id="" placeholder="" />
+                    <label asp-for="phone1"> رقم الهاتف 1</label>
+                    <span asp-validation-for="phone1" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="phone2" id="" placeholder="" />
+                    <label asp-for="phone2"> رقم الهاتف 2</label>
+                    <span asp-validation-for="phone2" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" class="form-control" asp-for="phone3" id="" placeholder="" />
+                    <label asp-for="phone3"> رقم الهاتف 3</label>
+                    <span asp-validation-for="phone3" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" id="Gover" asp-for="GovernmentId" asp-items="@(new SelectList(Model.Governments,"Id","name"))">
+                    <option value="">اختر المحافظة</option>
+                </select>
+                <label asp-for="GovernmentId">المحافظة</label>
+                <span asp-validation-for="GovernmentId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Country" />
+                    <label asp-for="Country">الدولة</label>
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="GobTitle" placeholder="" />
+                    <label asp-for="GobTitle">الوظيفة</label>
+                    <span asp-validation-for="GobTitle" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Location1" placeholder="" />
+                    <label asp-for="Location1"> الموقع الاول</label>
+                    <span asp-validation-for="Location1" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Location2" placeholder="" />
+                    <label asp-for="Location2"> الموقع الثاني</label>
+                    <span asp-validation-for="Location2" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="file" class="form-control" asp-for="CustomerPhotoFile" multiple />
+                    <label asp-for="CustomerPhotoFile">صورة البطاقة</label>
+                    <span asp-validation-for="CustomerPhotoFile" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="col">
+                <input type="submit" value="@(Model.Id !=null ? "تعديل" : "حفظ")" onclick="ValidateIdent()" class="btn w-100 btn-primary">
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+
+

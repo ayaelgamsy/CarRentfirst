@@ -1,0 +1,46 @@
+﻿@model List<CarAvailableByDateGetDto>
+@{
+    int index = 1;
+}
+
+<div class="container-fluid">
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th> مسلسل</th>
+                        <th>السيارة</th>
+                        <th>تاريخ العودة</th>
+                        <th>العميل</th>
+                        <th>رقم هاتف العميل</th>
+                        <th>الموظف </th>
+                        <th>فاتورة الايجار </th>
+                        <th> استلام السيارة </th>
+                 
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@(index++) </td>
+                        <td>@item.CarName</td>
+                        <td>@item.EndDate</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.CustomerPhone1</td>
+                        <td>@item.EmployeeName</td>
+
+                        <td>
+                            <a asp-action="Edit" asp-controller="CustomerRent" asp-area="Rent" asp-route-id="@item.Id" class="btn w-30  btn-primary"> الذهاب الي التأجير </a>
+                        </td>
+                        <td>
+                            <a asp-action="EditRentBack" asp-controller="CareStats" asp-area="Rent"  asp-route-id="@item.Id" class="btn btn-primary w-30">استلام السيارة</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+﻿@model CashDepositModelDto
+@{
+    ViewData["title"] = "ايداع الخزنة";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> الايداعات المسجلة  </span>
+        </h4>
+    </div>
+
+    <div id="_PartialCashDeposit">
+        <partial name="_PartialCashDeposit.cshtml" model=" Model.CashDepositRegisterDto" />
+    </div>
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>المسلسل</th>
+                        <th>المودع</th>
+                        <th>الخزنة</th>
+                        <th>التاريخ</th>
+                        <th>المبلغ</th>
+                        <th>ملاحظات</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var CashDeposit in Model.CashDepositGetDtos)
+                    {
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@CashDeposit.Name</td>
+                            <td>@CashDeposit.StockName</td>
+                            <td>@CashDeposit.Date.ToShortDateString()</td>
+                            <td>@CashDeposit.Value</td>
+                            <td>@CashDeposit.Notes</td>
+
+                            <td>
+                                <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@CashDeposit.Id">
+                                    <i class="bi bi-pen"></i>
+                                </a>
+                                <a onclick="deleteData(this)" class="btn btn-sm btn-danger" id="@CashDeposit.Id">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        function loadData(e) {
+
+            $("#_PartialCashDeposit").load('/Account/CashDeposit/GetData/' + e.id);
+
+        }
+
+        function deleteData(d) {
+            var result = confirm('هل تريد حذف هذه الخزنة؟');
+            if (result) {
+
+                window.location.href = '/Account/CashDeposit/Delete/' + d.id;
+
+            }
+        };
+    </script>
+}

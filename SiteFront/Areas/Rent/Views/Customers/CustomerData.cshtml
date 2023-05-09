@@ -1,0 +1,68 @@
+﻿
+@model IEnumerable<CustomerDataDto>
+@{
+    ViewData["title"] = "بيانات العملاء";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> بيانات العملاء</span>
+        </h4>
+    </div>
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>م</th>
+                        <th> العميل</th>
+                        <th>الرقم القومي</th>
+                        <th> رقم الجواز</th>
+                        <th>هاتف </th>
+                        <th> تاريخ الاضافة</th>
+                        <th> المستخدم </th>
+                        <th> تاريخ اخر تعديل</th>
+                        <th> المستخدم </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@item.Name</td>
+                            <td>@item.IdentNumber</td>
+                            <td>@item.PassportNumber</td>
+                            <td>@item.phone1</td>
+                            <td>
+                                @if (item.CreatedDate.ToShortDateString() != "01/01/0001")  
+                                {
+                                    @item.CreatedDate.ToShortDateString()
+
+                                }
+                            </td>
+                            <td>@item.CreatedUser</td>
+                            <td>
+                                @if (item.LastEditDate.ToShortDateString() != "01/01/0001")
+                                {
+                                    @item.LastEditDate.ToShortDateString()
+
+                                }
+                            </td>
+                            <td>@item.LastEditUser</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+

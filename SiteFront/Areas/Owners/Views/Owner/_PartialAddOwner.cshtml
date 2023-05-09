@@ -1,0 +1,87 @@
+﻿@model OwnerRegisterDto
+@{
+}
+<form method="POST" asp-area="Owners" asp-action="@(Model.Id != null ? "Edit" : "Create")" enctype="multipart/form-data">
+    <div class="box mb-3 p-3">
+        <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+            <div class="col d-none">
+                <div class="form-floating mb-2 ">
+                    <input type="text"
+                           class="form-control"
+                           asp-for="Id"
+                           placeholder=""
+                           readonly />
+                    <label for="">الرقم التعريفي</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="name" placeholder="" />
+                    <label asp-for="name">اسم المالك</label>
+                    <span asp-validation-for="name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" type="text" id="IdentNumber" class="form-control" asp-for="IdentNumber" placeholder="" />
+                    <label asp-for="IdentNumber">رقم البطاقة الشخصية</label>
+                    <span asp-validation-for="IdentNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="PassportNumber" placeholder="" id="passport" />
+                    <label asp-for="PassportNumber">رقم  الجواز</label>
+                    <span asp-validation-for="PassportNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" type="text" class="form-control" asp-for="Phone" placeholder="" />
+                    <label asp-for="Phone">رقم الهاتف</label>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <select class="form-select select2" asp-for="GovernmentId" asp-items="@(new SelectList(Model.Government,"Id","Name", Model.GovernmentId))" require="required">
+                        <option value="">اختر المحافظة</option>
+                    </select>
+                    <label asp-for="GovernmentId">المحافظة</label>
+                    <span asp-validation-for="GovernmentId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Country" />
+                    <label asp-for="Country">الدولة</label>
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Address" />
+                    <label asp-for="Address">العنوان</label>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Email" />
+                    <label asp-for="Email">الايميل</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="file" multiple class="form-control" asp-for="OwnerImage" placeholder="" />
+                    <label asp-for="OwnerImage">صورة رخصة القيادة</label>
+                    @*<span asp-validation-for="Name" class="text-danger"></span>*@
+                </div>
+            </div>
+            <div class="col">
+                <button class="btn w-100 btn-primary" type="submit" onclick="ValidateIdent()"> @(Model.Id != null ? "تعديل" : "حفظ")</button>
+            </div>
+        </div>
+    </div>
+</form>

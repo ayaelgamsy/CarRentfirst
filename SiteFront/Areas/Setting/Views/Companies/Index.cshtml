@@ -1,0 +1,64 @@
+﻿@model IEnumerable<CompanyGetDto>
+@{
+    ViewData["Title"] = "الشركات";
+    int index = 0;
+}
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> الشركات </span>
+        </h4>
+    </div>
+    <div id="_PartialAddCopmany">
+        <partial name="_PartialAddCopmany.cshtml" model="new CompanyRegisterDto()" />
+    </div>
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th> المسلسل</th>
+                        <th>اسم الشركة</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(index+=1)</td>
+                            <td>@item.Name</td>
+                            <td>
+                                <a onclick="laodData(this);" id="@item.Id" name="@item.Name" class="btn btn-sm btn-info">
+                                    <i class="bi bi-pen"></i>
+                                </a>
+                                <a onclick="deleteData(this);" id="@item.Id" name="@item.Name" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        function laodData(e) {
+            $("#_PartialAddCopmany").load('/Setting/Companies/Edit/' + e.id);
+        }
+      
+
+        function deleteData(d) {
+            var result = confirm('هل تريد حذف الشركة ' + d.name + ' ؟');
+            if (result) {
+
+                window.location.href = '/Setting/Companies/Delete/' + d.id;
+
+            }
+        };
+    </script>
+}

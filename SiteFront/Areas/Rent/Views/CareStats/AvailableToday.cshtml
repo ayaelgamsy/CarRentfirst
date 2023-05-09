@@ -1,0 +1,46 @@
+﻿@model List<CarAvailableGetDto>
+@{
+    ViewData["Title"] = "السيارات القادمة اليوم";
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> السيارات القادمة اليوم </span>
+        </h4>
+    </div>
+    <div class="box mb-3 p-3">
+        <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+            @foreach (var item in Model)
+            {
+
+               
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="~/Images/Cars/Photos/@(item.Id+"/"+item.CarPhotos.Select(p=>p.PhotoUrl).LastOrDefault())" style="width:400px;" class="img-thumbnail" alt="NoPhoto" />
+                            <div class="card-body">
+                                <h5 class="card-title"> موديل السيارة: @item.CarModel </h5>
+                                <p class="card-text">
+
+                                </p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">  اسم السيارة: @item.Name </li>
+                                <li class="list-group-item">  رقم السيارة: @item.Number</li>
+
+                                <li class="list-group-item">  تاريخ العودة : @item.EndTripDate</li>
+                                <li class="list-group-item">   اسم العميل : @item.CustomerRents.Where(c=>c.CarId==item.Id).Select(c=>c.Customer).LastOrDefault().name</li>
+                                <li class="list-group-item">هاتف العميل 1 : @item.CustomerRents.Where(c => c.CarId == item.Id).Select(c => c.Customer).LastOrDefault().phone1</li>
+                                <li class="list-group-item">    هاتف العميل 2 : @item.CustomerRents.Where(c => c.CarId == item.Id).Select(c => c.Customer).LastOrDefault().phone2</li>
+                               
+
+                            </ul>
+
+                        </div>
+                    </div>
+              
+            }
+        </div>
+    </div>
+</div>
+

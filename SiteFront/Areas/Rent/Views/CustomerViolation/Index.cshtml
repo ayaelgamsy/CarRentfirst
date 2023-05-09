@@ -1,0 +1,217 @@
+﻿@model CustomerViolationModelDto
+
+@{
+    ViewData["Title"] = "مخالفات السيارات";
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> مخالفات السيارات </span>
+        </h4>
+    </div>
+
+    <div id="_PartialCustomerViolation">
+        <partial name="_PartialCustomerViolation.cshtml" model="Model.CustomerViolationRegisterDto" />
+    </div>
+
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+
+                        <th>السياره</th>
+                        <th> العميل</th>
+                        <th>التاريخ </th>
+                        <th> القيمة</th>
+                        <th> المدفوع</th>
+                        <th> الباقي</th>
+                        <th> الخزنة</th>
+                        <th> تاريخ المخالفة</th>
+                        <th>رقم المخالفة</th>
+                        <th>حالة المخالفة</th>
+                        <th>مكان المخالفة</th>
+                        <th>ملاحظات</th>
+                        <th> صور المخالفة</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CustomerViolationGetDtos)
+                    {
+                    <tr>
+                        <td>@item.CarName</td>
+                        <td>@item.ViolationDate.ToShortDateString()</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.Value</td>
+                        <td>@item.Date.ToShortDateString()</td>
+                        <td>@item.Payment</td>
+                        <td>@item.Rest</td>
+                        <td>@item.StockName</td>
+                        <td>@item.ViolationNumber</td>
+                        <td>@item.ViolationState</td>
+                        <td>@item.ViolationPlace</td>
+                        <td>@item.Notes</td>
+                        <td>
+                            @if (item.CustomerViolationPhotos.Count() != 0)
+                            {
+                                <a href="" type="button" data-bs-toggle="modal" data-bs-target="#car-image-modal" onclick="GetPhotos(this)" id="@item.Id">
+                                    <img src="~/Images/CustomerViolation/@(item.Id+"/"+item.CustomerViolationPhotos.Select(p=>p.PhotoUrl).LastOrDefault())" style="width:90px;height:50px;" class="img-thumbnail" alt="NoPhoto" />
+                                </a>
+                            }
+
+                        </td>
+                        <td>
+                            <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@item.Id">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            <a class="btn btn-sm btn-danger btn-delete" data-id="@item.Id">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="car-image-modal" tabindex="-1" aria-labelledby="car-image-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="car-image-modalLabel">صور المخالفة </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="div_image">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        function loadData(e) {
+
+            $("#_PartialCustomerViolation").load('/Rent/CustomerViolation/GetData/' + e.id);
+
+        }
+
+        //Delete
+        $(".btn-delete").on("click", function () {
+            var btn = $(this);
+            if (confirm("هل انت متاكد من الحذف ؟")) {
+                $.ajax({
+                    url: "/Rent/CustomerViolation/Delete/" + btn.data("id"),
+                    method: "GET",
+                    async: true,
+                    success: function () {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents("tr").fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error('خطاء أثناء الحذف !!!');
+                    }
+                });
+            }
+        });
+
+
+        //Rest
+        function GetRest() {
+            var payment = $("#Payment");
+            $("#RestValue").val(parseFloat($("#Total").val()) - parseFloat(payment.val()));
+        };
+
+        //Get Customer
+        function GetCustomer() {
+            var carId = $("#carId").val();
+            var violationDate = $("#violationDate").val();
+            $.ajax({
+                url: "/Rent/CustomerViolation/GetCustomer?id=" + carId + "&&date=" + violationDate,
+                method: "GET",
+                async: true,
+                contentType: "application/json",
+                success: function (data) {
+                    $("#customerid").val(data.id).change();
+                },
+                error: function () {
+                    toastr.error("خطأ في تاريخ المخالفة ");
+                }
+
+            });
+        }
+
+
+        //Get Photos
+        function GetPhotos(p) {
+            $.ajax({
+                url: "/Rent/CustomerViolation/GetCustomerViolationPhotos/" + p.id,
+                dataType: 'json',
+                data: '',
+                contentType: "application/json",
+                success: function (data) {
+                    $.each(data, function (key, value) {
+                        $(" <div class='col-md-4 col-sm-6' id='parent'>" +
+                            "<div class='card' > " +
+                            "<img class='card-img-top' src=" + value.image + "  alt='Card image cap' >" +
+                            "<div class='card-body text-center'>" +
+                            "<button id=" + value.id + " class='card-link btn btn-danger' onclick='DeletePhoto(this)' ><i class='bi bi-trash3-fill'></i></button>" +
+                            "<a href=" + value.image + " class='card-link btn btn-info' download=" + value.name + '.jpg' + " ><i class='bi bi-download'></i></a>" +
+                            "<a href=" + value.image + " class='card-link btn btn-secondary'  target='_blank' > <i class='bi bi-eye-fill'></i></a>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>").appendTo("#div_image");
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        }
+
+        //Empty Modal
+        $("#car-image-modal").on("hidden.bs.modal", function () {
+            $("#div_image").empty();
+        });
+
+        //Delete Photo
+        function DeletePhoto(d) {
+            var btn = $(d);
+            console.log(btn);
+            var result = confirm("هل أنت متأكد من الحذف !!!");
+            if (result) {
+                $.ajax({
+                    url: "/Rent/CustomerViolation/DeletePhoto/" + d.id,
+                    success: function (response) {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents("#parent").fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error('خطاء أثناء الحذف !!!');
+                    }
+                });
+            }
+        }
+
+    </script>
+
+
+
+
+}
+

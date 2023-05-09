@@ -1,0 +1,72 @@
+﻿@model CarStatusModelDto
+
+
+@{
+    ViewData["Title"] = "تقرير السيارات ";
+}
+
+<form asp-area="Rent" asp-controller="CarStatusReport" asp-action="Create" method="post">
+    <div class="container-fluid">
+        <div class="title">
+            <h4>
+                <span>تقرير السيارات  </span>
+            </h4>
+        </div>
+        <div class="box mb-3 p-3">
+            <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <select class="form-select select2" asp-for="CarStatusRegisterDto.CarId" id="" asp-items="@(new SelectList(Model.CarStatusRegisterDto.Cars,"Id","name"))" aria-label="">
+                            <option value="">اختر السيارة </option>
+                        </select>
+                        <label asp-for="CarStatusRegisterDto.CarId">السيارة</label>
+                        <span asp-validation-for="CarStatusRegisterDto.CarId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="date" asp-for="CarStatusRegisterDto.FromDate" class="form-control" id="" placeholder="" />
+                        <label asp-for="CarStatusRegisterDto.FromDate">من تاريخ</label>
+                        <span asp-validation-for="CarStatusRegisterDto.FromDate" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="date" asp-for="CarStatusRegisterDto.ToDate" class="form-control" id="" placeholder="" />
+                        <label asp-for="CarStatusRegisterDto.ToDate">إلى تاريخ</label>
+                        <span asp-validation-for="CarStatusRegisterDto.ToDate" class="text-danger"></span>
+
+                    </div>
+                </div>
+                @*<div class="col">
+                        <div class="form-floating mb-2">
+                            <div class="mb-3 form-check form-select" style="background-image:none">
+                                <input type="checkbox" checked class="form-check-input" asp-for="CarStatusRegisterDto.Active" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">مفعل  </label>
+                            </div>
+                            <label asp-for="CarStatusRegisterDto.Active">التفعيل</label>
+                            <span asp-validation-for="CarStatusRegisterDto.Active" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <div class="mb-3 form-check form-select" style="background-image:none">
+                                <input type="checkbox" class="form-check-input" asp-for="CarStatusRegisterDto.Available" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">متاحة </label>
+                            </div>
+                            <label asp-for="CarStatusRegisterDto.Available">الايجار</label>
+                            <span asp-validation-for="CarStatusRegisterDto.Available" class="text-danger"></span>
+                        </div>
+                    </div>*@
+                <div class="col">
+                    <input type="submit" value="بحث" class="btn w-100 btn-primary">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="PartialCarStatusReport">
+    <partial name="_PartialCarStatusReport.cshtml" model="Model.CarStatusGetDtos" />
+</div>

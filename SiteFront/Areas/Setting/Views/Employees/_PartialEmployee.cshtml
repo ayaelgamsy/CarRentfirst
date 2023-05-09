@@ -1,0 +1,90 @@
+﻿@model EmployeeRegisterDto
+
+
+<form asp-action="@(Model.Id !=null ? "Edit" : "Create")" method="post" enctype="multipart/form-data">
+
+
+    <div class="box mb-3 p-3">
+        <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Name" id="" placeholder="" />
+                    <label asp-for="Name">اسم الموظف</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Address" id="" placeholder="" />
+                    <label asp-for="Address">عنوان الموظف</label>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" type="text" class="form-control" maxlength="14" asp-for="IdentNumber" id="ident" placeholder="" />
+                    <label asp-for="IdentNumber"> الرقم القومي</label>
+                    <span asp-validation-for="IdentNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="PassportNumber" placeholder="" id="passport" />
+                    <label asp-for="PassportNumber">  رقم الجواز</label>
+                    <span asp-validation-for="PassportNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Email" placeholder="" />
+                    <label asp-for="Email">الايميل</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input onkeypress="if (isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" type="text" class="form-control" asp-for="Phone" id="" placeholder="" />
+                    <label asp-for="Phone"> رقم الهاتف </label>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select class="form-select select2" id="Gover" asp-for="GovernmentId" asp-items="@(new SelectList(Model.Governments,"Id","name"))">
+                    <option value="">اختر المحافظة</option>
+                </select>
+                <label asp-for="GovernmentId">المحافظة</label>
+                <span asp-validation-for="GovernmentId" class="text-danger"></span>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Country" />
+                    <label asp-for="Country">الدولة</label>
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="file" class="form-control" asp-for="EmployeePhotoFile" multiple />
+                    <label asp-for="EmployeePhotoFile">صور البطاقة</label>
+                    <span asp-validation-for="EmployeePhotoFile" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="col">
+                <input type="submit" value="@(Model.Id !=null ? "تعديل" : "حفظ")" onclick="ValidateIdent()" class="btn w-100 btn-primary">
+            </div>
+
+        </div>
+    </div>
+</form>

@@ -1,0 +1,110 @@
+﻿@model OwnerPaymentModelDto
+
+@{
+    ViewData["title"] = "مدفوعات الملاك";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> مدفوعات الملاك </span>
+        </h4>
+    </div>
+    <div id="_PartialOwnerPayment">
+        <partial name="_PartialOwnerPayment.cshtml" model="Model.OwnerPaymentRegisterDto" />
+    </div>
+
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>م</th>
+                        <th>اسم المالك</th>
+                        <th> الدين الحالي</th>
+                        <th>  القيمة</th>
+                        <th> الخزنة</th>
+                        <th> التاريخ</th>
+                        <th>   ملاحظات</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OwnerPaymentGetDtos)
+                    {
+                    <tr>
+                        <td>@(index++)</td>
+                        <td>@item.CarOwnerName</td>
+                        <td>@item.CurrentDebt</td>
+                        <td>@item.Value</td>
+                        <td>@item.StockName</td>
+                        <td>@item.Date.ToShortDateString()</td>
+                        <td>@item.Notes</td>
+
+                        <td>
+                            <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@item.Id">
+                                <i class="bi bi-pen"></i>
+                            </a>
+                            <a  class="btn btn-sm btn-danger btn-delete" data-id="@item.Id">
+                                <i class="bi bi-trash3"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{ 
+    <script type="text/javascript">
+
+        function loadData(d) {
+            $("#_PartialOwnerPayment").load('/Owners/OwnerPayment/GetData/' + d.id);
+        }
+
+        //Delete
+        $(".btn-delete").on("click", function () {
+            var btn = $(this);
+            if (confirm("هل انت متاكد من الحذف ؟")) {
+                $.ajax({
+                    url: "/Owners/OwnerPayment/Delete/" + btn.data("id"),
+                    method: "GET",
+                    async: true,
+                    success: function () {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents("tr").fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error('خطاء أثناء الحذف !!!');
+                    }
+                });
+            }
+
+        });
+
+        //Account
+        function GetDebt() {
+            var OwnerId = $("#CarOwner").val();
+            if (OwnerId == "") {
+                $("#CurrentDebt").val("");
+                return;
+            }
+            $.ajax({
+                url: "/Owners/OwnerPayment/GetCurrentDebt/" + OwnerId,
+                success: function (data) {
+                    $("#CurrentDebt").val(data.currentDebt);
+                },
+                error: function () {
+                    toastr.error("خطأ في كود العميل !!");
+                }
+            });
+        }
+
+
+    </script>
+}

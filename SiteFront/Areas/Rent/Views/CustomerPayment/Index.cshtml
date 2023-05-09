@@ -1,0 +1,116 @@
+﻿
+@model CustomerPaymentModelDto
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService Authorization
+@using Infrastracture.Services.Permission
+
+@{
+    ViewData["title"] = "مدفوعات العملاء";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> مدفوعات العملاء </span>
+        </h4>
+    </div>
+
+    <div id="_PartialCustomerPayment">
+        <partial name="_PartialCustomerPayment.cshtml" model=" Model.CustomerPayRegisterDto" />
+    </div>
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>المسلسل</th>
+                        <th>  اسم العميل</th>
+                        <th> الدين الحالي</th>
+                        <th> القيمة</th>
+                        <th> التاريخ</th>
+                        <th> الخزنة</th>
+                        <th> الملاحظات</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CustomerPayGetDtos)
+                    {
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@item.CustomerName</td>
+                            <td>@item.CurrentDebt</td>
+                            <td>@item.Value</td>
+                            <td>@item.Date.ToShortDateString()</td>
+                            <td>@item.StockName</td>
+                            <td>@item.Notes</td>
+                            <td>
+                                <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@item.Id">
+                                    <i class="bi bi-pen"></i>
+                                </a>
+                                <a onclick="deleteData(this);" class="btn btn-sm btn-danger" id="@item.Id">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+
+        function loadData(e) {
+
+            $("#_PartialCustomerPayment").load('/Rent/CustomerPayment/GetData/' + e.id);
+
+        }
+
+      
+
+        function deleteData(d) {
+            var result = confirm('هل تريد حذف هذه الدفعة ؟');
+            if (result) {
+
+                window.location.href = '/Rent/CustomerPayment/Delete/' + d.id;
+
+            }
+        };
+
+        $("#customer").change(function () {
+
+            var Id = $(this).val();
+
+            if (Id == "") {
+                $("#CurrentDebt").val("");
+                return;
+            }
+            $.ajax({
+                async: true,
+                crossDomain: true,
+                url: "/Rent/CustomerPayment/GetCustomerAccount?custometId=" + Id,
+                method: "GET",
+                success: function (response) {
+                    $("#CurrentDebt").val(response.debt)
+                },
+                error: function (response) {
+                    toastr.error('خطاء في كود العميل !!!');
+                }
+            });
+
+        });
+
+
+    </script>
+}

@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section class="error">
+    <div class="container-fluid p-0">
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 align-items-center justify-content-center g-0 m-0">
+            <div class="col error-box">
+                <div class="bg-light align-items-center">
+                    <div class="text-center pt-5 px-3">
+                        <img src="~/assets/images/logo-color.png" alt="logo" class="" />
+                        <h3 class="fw-bold my-2">
+                            عذراً، لا يمكنك الوصول لهذه الصفحة.
+                        </h3>
+                    </div>
+                    <div class="p-5">
+                        <div class="form-floating mb-2 px-5">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="btn w-100 btn-primary">الرجوع للرئيسية</a>
+                        </div>
+                    </div>
+                    <footer class="">
+                        <div class="container-fluid">
+                            <div class="text-center">
+                                جميع الحقوق محفوظة لشركة TabibSoft 2023.
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+            <div class="col error-img d-none d-sm-none d-md-block">
+                <div></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- JS Files -->

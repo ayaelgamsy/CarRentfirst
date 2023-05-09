@@ -1,0 +1,57 @@
+﻿@model CarMaintenanceRegisterDto
+
+<form method="POST" asp-area="Owners" asp-action="@(Model.Id != null ? "Edit" : "Create")" >
+    <div class="box mb-3 p-3">
+        <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+
+            <input type="hidden"  asp-for="Id" />
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <select class="form-select select2" asp-for="CarId" asp-items="@(new SelectList(Model.Cars,"Id","Name", Model.CarId))">
+                        <option value="">اختر السيارة</option>
+                    </select>
+                    <label asp-for="CarId">السيارة</label>
+                    <span asp-validation-for="CarId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="date" class="form-control" asp-for="date" />
+                    <label asp-for="date">التاريخ</label>
+                    <span asp-validation-for="date" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="value" />
+                    <label asp-for="value">القيمة</label>
+                    <span asp-validation-for="value" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <select class="form-select select2" asp-for="StockId" asp-items="@(new SelectList(Model.Stocks,"Id","Name", Model.StockId))">
+                        <option value="">اختر الخزنة</option>
+                    </select>
+                    <label asp-for="StockId">الخزنة</label>
+                    <span asp-validation-for="StockId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" asp-for="Notes" />
+                    <label asp-for="Notes">ملاحظات</label>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <button class="btn w-100 btn-primary" type="submit"> @(Model.Id != null ? "تعديل" : "حفظ")</button>
+            </div>
+        </div>
+    </div>
+</form>

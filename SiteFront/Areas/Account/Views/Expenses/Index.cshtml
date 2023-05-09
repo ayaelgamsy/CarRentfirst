@@ -1,0 +1,83 @@
+﻿@model ExpenseModelDto
+@{
+    ViewData["title"] = " المصروفات المسجلة";
+
+}
+
+   
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span>  المصروفات المسجلة</span>
+        </h4>
+    </div>
+    <form asp-area="Account" asp-controller="Expenses" asp-action="Search" method="post">
+        <div class="box mb-3 p-3">
+            <div class="row g-2 row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 row-cols-xl-6">
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <select class="form-select select2" asp-for="ExpenseReportDto.ExpenseTypeId" id="" asp-items="@(new SelectList(Model.ExpenseReportDto.DrpExpenseTypeDto,"Id","Name"))" aria-label="">
+                            <option value="">اختر نوع المصروف </option>
+                        </select>
+                        <label asp-for="ExpenseReportDto.ExpenseTypeId">نوع المصروف</label>
+                        <span asp-validation-for="ExpenseReportDto.ExpenseTypeId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="date" asp-for="ExpenseReportDto.FromDate" class="form-control" id="" placeholder="" />
+                        <label asp-for="ExpenseReportDto.FromDate">من تاريخ</label>
+                        <span asp-validation-for="ExpenseReportDto.FromDate" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-floating mb-2">
+                        <input type="date" asp-for="ExpenseReportDto.ToDate" class="form-control" id="" placeholder="" />
+                        <label asp-for="ExpenseReportDto.ToDate">إلى تاريخ</label>
+                        <span asp-validation-for="ExpenseReportDto.ToDate" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+                <div class="col">
+                    <input type="submit" value="بحث" class="btn w-100 btn-primary">
+                </div>
+
+                <div class="col">
+                    <a asp-area="Account" asp-controller="Expenses" asp-action="Create" class="btn w-100 btn-primary">
+                        اضافة مصروف جديد
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="PartialExpense">
+    <partial name="_PartialExpense.cshtml" model="Model.ExpenseGetDtos" />
+</div>
+
+
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+
+        function deleteData(d) {
+            var result = confirm('هل تريد حذف هذه الخزنة؟');
+            if (result) {
+
+                window.location.href = '/Account/Expenses/Delete/' + d.id;
+
+            }
+        };
+    </script>
+}

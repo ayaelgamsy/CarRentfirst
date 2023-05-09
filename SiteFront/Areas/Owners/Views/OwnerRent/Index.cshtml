@@ -1,0 +1,180 @@
+﻿@model OwnerRentModelDto
+
+@{
+    ViewData["title"] = "تأجير الملاك";
+    int index = 1;
+
+}
+
+<div class="container-fluid">
+    <div class="title">
+        <h4>
+            <span> تأجير الملاك </span>
+        </h4>
+    </div>
+    <div id="_PartialOwnerRent">
+        <partial name="_PartialOwnerRent.cshtml" model="Model.OwnerRentRegisterDto" />
+    </div>
+
+
+    <div class="box mb-3 p-3">
+        <div class="table-responsive-md">
+            <table class="table full-table">
+                <thead>
+                    <tr>
+                        <th>م</th>
+                        <th>اسم المالك</th>
+                        <th> السيارة</th>
+                        <th> الخزنة</th>
+                        <th> التاريخ</th>
+                        <th> تاريخ البداية </th>
+                        <th> تاريخ الانتهاء</th>
+                        <th>  سعر الشهر</th>
+                        <th>   عدد الشهور</th>
+                        <th>   القيمة الكلية</th>
+                        <th>   المدفوع</th>
+                        <th>   الباقي</th>
+                        <th>   ملاحظات</th>
+                        <th>تعديل/حذف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OwnerRentGetDtos)
+                    {
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@item.CarOwnerName</td>
+                            <td>@item.CarName</td>
+                            <td>@item.StockName</td>
+                            <td>@item.Date.ToShortDateString()</td>
+                            <td>@item.StartDate.ToShortDateString()</td>
+                            <td>@item.EndDate.ToShortDateString()</td>
+                            <td>@item.PricePerMonth</td>
+                            <td>@item.NumberOfMonths</td>
+                            <td>@item.TotalValue</td>
+                            <td>@item.Payment</td>
+                            <td>@item.RestValue</td>
+                            <td>@item.Notes</td>
+
+                            <td>
+                                <a onclick="loadData(this);" class="btn btn-sm btn-info" id="@item.Id">
+                                    <i class="bi bi-pen"></i>
+                                </a>
+                                <a  class="btn btn-sm btn-danger btn-delete" data-id="@item.Id">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+
+        function loadData(e) {
+
+            $("#_PartialOwnerRent").load('/Owners/OwnerRent/GetData/' + e.id);
+
+        }
+        //Delete
+        $(".btn-delete").on("click", function () {
+            var btn = $(this);
+            if (confirm("هل انت متاكد من الحذف ؟")) {
+                $.ajax({
+                    url: "/Owners/OwnerRent/Delete/" + btn.data("id"),
+                    method: "GET",
+                    async: true,
+                    success: function () {
+                        toastr.success("تم الحذف بنجاح");
+                        btn.parents("tr").fadeOut();
+                    },
+                    error: function (response) {
+                        toastr.error('خطاء أثناء الحذف !!!');
+                    }
+                });
+            }
+
+        });
+
+        //Total
+        function GetTotal() {
+            var Total = ($("#MounthPrice").val()) * ($("#NumOfMounths").val());
+            $("#TotalValue").val(Total).change();
+        };
+
+        //Rest
+        function GetRest() {
+            var Rest = ($("#TotalValue").val()) - ($("#Payment").val());
+            $("#RestValue").val(Rest).change();
+        };
+
+        //Price
+        function GetPrice() {
+            var CarId = $("#Cars").val();
+            $.ajax({
+                url: "/Owners/OwnerRent/GetMounthValue/" + CarId,
+                success: function (data) {
+                    $("#MounthPrice").val(data).change();
+                },
+                error: function () {
+                    alert('Somthing Wrong');
+                }
+
+            });
+        };
+
+        //Cars
+        function GetCars() {
+            var OwnerId = $("#CarOwners").val();
+            $.ajax({
+                url: "/Owners/OwnerRent/GetOwnerCars/" + OwnerId,
+                success: function (data) {
+                    var dropdown = $("#Cars");
+                    dropdown.empty();
+                    dropdown.append('<option selected="true" disabled>اختر السيارة</option>');
+                    $.each(data, function (i, option) {
+                        $('#Cars').append($('<option/>').attr("value", option.id).text(option.name));
+                    });
+                },
+                error: function () {
+                    alert("somthing Wrong");
+                }
+            });
+        }
+
+        //Set End Date
+        function GetEndDate() {
+
+            var NumOfMounths = $("#NumOfMounths");
+            var startDate = $("#StartDate");
+            var todayDate = new Date(startDate.val());
+            var endDate = todayDate;
+            endDate.setMonth(todayDate.getMonth() + parseInt(NumOfMounths.val()));
+            var endDD = endDate.toISOString().split('T')[0];
+
+            $("#EndDate").val(endDD).change();
+        };
+
+        //Alert For End Date
+        //function() {
+        //    var endDate = $("#EndDate");
+        //    var EndDate = new Date(endDate.val());
+        //    var todayDate = new Date();
+        //    if (EndDate == todayDate) {
+        //        alert("تاريخ انتهاء عقد ")
+        //    }
+        //}
+
+
+    </script>
+}
+
